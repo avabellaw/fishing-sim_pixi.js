@@ -7,6 +7,8 @@ PIXI.settings.ROUND_PIXELS = false;
 PIXI.settings.RESOLUTION = 1;
 window.devicePixelRatio = 1;
 
+let background;
+
 let gameObject = {
     score:0,
     entitiesStack: [],
@@ -66,6 +68,20 @@ function init() {
 
     document.body.appendChild(app.view);
 
+
+    const texture = PIXI.Texture.from('assets/sprites/background.webp');
+
+    const background = new PIXI.TilingSprite(
+        texture,
+        app.screen.width,
+        app.screen.height,
+    );
+
+    background.tileScale.x = 2.5;
+    background.tileScale.y = 2.5;   
+
+    app.stage.addChild(background);
+
     gameObject.init();
 
     let updates = 0;
@@ -73,6 +89,8 @@ function init() {
         gameObject.update(delta, updates);
 
         updates += delta;
+
+        background.tilePosition.y -= 1;
 
         if(updates >= 60) {
             updates = 0;
