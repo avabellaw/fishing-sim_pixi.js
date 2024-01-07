@@ -17,14 +17,10 @@ const app = new PIXI.Application({
 init();
 
 const FISH_TYPES = { commonFish: new CommonFish(), yellowFish: new YellowFish() };
-
-addNewFish();
-
+let updates = 0;
 let playerHook = new PlayerHook();
 playerHook.x = WIDTH / 2 - playerHook.width / 2;
 entities.push(playerHook);
-
-let updates = 0;
 
 // Mouse events
 
@@ -48,6 +44,16 @@ function gameLoop(delta) {
     for (let entity of entities) {
         entity.update(delta);
     }
+
+    console.log(elapsedMS);
+
+    // if (updates >= 60) {
+    //     if(Math.floor(Math.random() * 2) == 0) {
+    //         addRandomFish();
+    //     }
+
+    //     updates = 0;
+    // }
 }
 
 /**
@@ -60,13 +66,36 @@ function init() {
 
     document.body.appendChild(app.view);
 
-    app.ticker.add(delta => gameLoop(delta));
+    let updates = 0;
+    app.ticker.add(delta => {
+        update(delta);
+
+        updates += delta;
+
+        if(updates >= 50) {
+            if(Math.floor(Math.random() * 30) == 0){
+                addRandomFish();
+            }
+        }
+
+        if(updates >= 60) {
+            updates = 0;
+        }
+    });
+}
+
+// Update
+
+function update(delta) {
+    for (let entity of entities) {
+        entity.update(delta);
+    }
 }
 
 // Helper functions
 
 function getRandomFish() {
-    switch(Math.floor(Math.random() * 2)) {
+    switch (Math.floor(Math.random() * 2)) {
         case 0:
             return new CommonFish();
         case 1:
