@@ -7,7 +7,7 @@ class Entity {
         this.sprite = PIXI.Sprite.from(spriteLocation);
         app.stage.addChild(this.sprite);
 
-        
+
         this.width = width;
         this.height = height;
 
@@ -25,7 +25,7 @@ class Entity {
         this.sprite.y = this.y;
 
         updates += delta;
-        if(updates >= 60) {
+        if (updates >= 60) {
             updates = 0;
         }
     }
@@ -45,12 +45,11 @@ class Fish extends Entity {
         this.y -= this.speed;
 
         if (this.y < -this.height) {
-            entities.push(new CommonFish());
             this.removeFish();
         }
     }
 
-    removeFish(){
+    removeFish() {
         app.stage.removeChild(this.sprite);
         entities.splice(entities.indexOf(this), 1);
     }
@@ -71,6 +70,17 @@ class CommonFish extends Fish {
     }
 }
 
+class YellowFish extends Fish {
+    constructor() {
+        super(0, HEIGHT, 19 * 2, 18 * 2, 2.2, "assets/sprites/fish/yellow.webp");
+        this.x = Math.floor(Math.random() * (WIDTH - this.width));
+    }
+
+    update(delta) {
+        super.update(delta);
+    }
+}
+
 // END FISH
 
 // PLAYER HOOK
@@ -78,9 +88,9 @@ class CommonFish extends Fish {
 class PlayerHook extends Entity {
     constructor() {
         super(0, 0, 24, 40, "assets/sprites/hook.webp");
-    }  
-    
-    update(){
+    }
+
+    update() {
         super.update();
     }
 }
