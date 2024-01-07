@@ -1,4 +1,6 @@
 * {
+    --game-width: 500px;
+    --game-height: 500px;
     margin:0;
     padding:0;
 }
@@ -7,6 +9,29 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     height: 100vh;
     background-color: aquamarine;
+}
+
+#game-container {
+    min-width: var(--game-width);
+    min-height: var(--game-height);
+}
+
+#game-container[data-loading="true"] { 
+    background: url(../gifs/loading.gif) no-repeat;
+    background-position: center;
+    background-size: 5rem;
+}
+
+#score-container {
+    background-color: white;
+    width: var(--game-width);
+    padding: 0.4rem;
+    box-sizing: border-box;
+}
+
+#score {
+    
 }

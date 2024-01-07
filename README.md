@@ -3,3 +3,4 @@
 # Credit 
 
 Hook image from [rawpixel](https://www.rawpixel.com/image/6333402/png-sticker-public-domain)
+Loading gif from [loader.io](https://loading.io/)
