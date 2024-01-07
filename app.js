@@ -10,20 +10,26 @@ window.devicePixelRatio = 1;
 let background;
 
 let gameObject = {
-    score:0,
+    score: 0,
     entitiesStack: [],
-    update: function(delta, updates) {
+    update: function (delta, updates) {
         entities.forEach(entity => {
             entity.update(delta);
         });
-        if(updates % 60 == 0 && this.entitiesStack.length > 0) {
+
+        if (updates % 60 == 0 && this.entitiesStack.length > 0) {
             addEntity(this.entitiesStack.pop());
         }
     },
-    init: function() {
-        for(let i = 0; i < 100; i++) {
+    init: function () {
+        for (let i = 0; i < 100; i++) {
             this.entitiesStack.push(getRandomFish());
         }
+    },
+    addToScore: function (points) {
+        this.score += points;
+        console.log(this.score);
+        document.getElementById("score").innerText = this.score;
     }
 }
 
@@ -57,17 +63,13 @@ CANVAS.onmouseenter = function (event) {
 CANVAS.onmouseleave = function (event) {
     document.body.style.cursor = "default";
 };
-
 /**
  * Initializes the game display.
  */
 function init() {
-    app.renderer.view.style.position = "absolute";
+    document.getElementById("score-container").style.maxWidth = WIDTH;
 
-    app.renderer.backgroundColor = "#FFFFFF";
-
-    document.body.appendChild(app.view);
-
+    app.renderer.backgroundColor = "transparent";
 
     const texture = PIXI.Texture.from('assets/sprites/background.webp');
 
@@ -78,7 +80,7 @@ function init() {
     );
 
     background.tileScale.x = 2.5;
-    background.tileScale.y = 2.5;   
+    background.tileScale.y = 2.5;
 
     app.stage.addChild(background);
 
@@ -92,10 +94,12 @@ function init() {
 
         background.tilePosition.y -= 1;
 
-        if(updates >= 60) {
+        if (updates >= 60) {
             updates = 0;
         }
     });
+
+    document.getElementById("game-container").appendChild(app.view);
 }
 
 // Helper functions

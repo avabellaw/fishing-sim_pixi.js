@@ -34,9 +34,10 @@ class Entity {
 // FISH
 
 class Fish extends Entity {
-    constructor(x, y, width, height, speed, spriteLocation) {
+    constructor(x, y, width, height, speed, spriteLocation, points) {
         super(x, y, width, height, spriteLocation);
 
+        this.points = points;
         this.speed = speed;
         this.sprite.on('mouseenter', (event) => { this.caughtFish() });
         this.sprite.eventMode = "dynamic"
@@ -53,8 +54,7 @@ class Fish extends Entity {
 
     caughtFish(){
         this.removeFish();
-        gameObject.score++;
-        console.log(gameObject.score);
+        gameObject.addToScore(this.points)
     }
 
     removeFish() {
@@ -69,7 +69,7 @@ class Fish extends Entity {
 
 class CommonFish extends Fish {
     constructor() {
-        super(0, HEIGHT, 40, 36, 1.8, "assets/sprites/fish/common.webp");
+        super(0, HEIGHT, 40, 36, 1.8, "assets/sprites/fish/common.webp", 4);
         this.x = Math.floor(Math.random() * (WIDTH - this.width));
     }
 
@@ -80,7 +80,7 @@ class CommonFish extends Fish {
 
 class YellowFish extends Fish {
     constructor() {
-        super(0, HEIGHT, 19 * 2, 18 * 2, 2.2, "assets/sprites/fish/yellow.webp");
+        super(0, HEIGHT, 19 * 2, 18 * 2, 2.2, "assets/sprites/fish/yellow.webp", 5);
         this.x = Math.floor(Math.random() * (WIDTH - this.width));
     }
 
