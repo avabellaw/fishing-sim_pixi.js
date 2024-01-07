@@ -7,6 +7,24 @@ PIXI.settings.ROUND_PIXELS = false;
 PIXI.settings.RESOLUTION = 1;
 window.devicePixelRatio = 1;
 
+let gameObject = {
+    score:0,
+    entitiesStack: [],
+    update: function(delta, updates) {
+        entities.forEach(entity => {
+            entity.update(delta);
+        });
+        if(updates % 60 == 0) {
+            addEntity(this.entitiesStack.pop());
+        }
+    },
+    init: function() {
+        for(let i = 0; i < 100; i++) {
+            this.entitiesStack.push(getRandomFish());
+        }
+    }
+}
+
 const app = new PIXI.Application({
     width: WIDTH,
     height: HEIGHT,
@@ -38,24 +56,6 @@ CANVAS.onmouseleave = function (event) {
     document.body.style.cursor = "default";
 };
 
-// Game loop
-
-function gameLoop(delta) {
-    for (let entity of entities) {
-        entity.update(delta);
-    }
-
-    console.log(elapsedMS);
-
-    // if (updates >= 60) {
-    //     if(Math.floor(Math.random() * 2) == 0) {
-    //         addRandomFish();
-    //     }
-
-    //     updates = 0;
-    // }
-}
-
 /**
  * Initializes the game display.
  */
@@ -66,30 +66,18 @@ function init() {
 
     document.body.appendChild(app.view);
 
+    gameObject.init();
+
     let updates = 0;
     app.ticker.add(delta => {
-        update(delta);
+        gameObject.update(delta, updates);
 
         updates += delta;
-
-        if(updates >= 50) {
-            if(Math.floor(Math.random() * 30) == 0){
-                addRandomFish();
-            }
-        }
 
         if(updates >= 60) {
             updates = 0;
         }
     });
-}
-
-// Update
-
-function update(delta) {
-    for (let entity of entities) {
-        entity.update(delta);
-    }
 }
 
 // Helper functions
@@ -103,8 +91,7 @@ function getRandomFish() {
     }
 }
 
-function addRandomFish() {
-    let fish = getRandomFish();
-    entities.push(fish);
-    app.stage.addChild(fish.sprite);
+function addEntity(entity) {
+    entities.push(entity);
+    app.stage.addChild(entity.sprite);
 }

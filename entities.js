@@ -38,6 +38,8 @@ class Fish extends Entity {
         super(x, y, width, height, spriteLocation);
 
         this.speed = speed;
+        this.sprite.on('mouseenter', (event) => { this.caughtFish() });
+        this.sprite.eventMode = "dynamic"
     }
 
     update(delta) {
@@ -47,6 +49,12 @@ class Fish extends Entity {
         if (this.y < -this.height) {
             this.removeFish();
         }
+    }
+
+    caughtFish(){
+        this.removeFish();
+        gameObject.score++;
+        console.log(gameObject.score);
     }
 
     removeFish() {
