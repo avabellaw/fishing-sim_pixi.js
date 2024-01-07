@@ -16,7 +16,7 @@ let gameObject = {
         entities.forEach(entity => {
             entity.update(delta);
         });
-        if(updates % 60 == 0) {
+        if(updates % 60 == 0 && this.entitiesStack.length > 0) {
             addEntity(this.entitiesStack.pop());
         }
     },
