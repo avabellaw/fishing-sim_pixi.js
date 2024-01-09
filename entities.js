@@ -48,6 +48,8 @@ class Fish extends Entity {
     constructor(x, y, width, height, speed, spriteLocation, points) {
         super(x, y, width, height);
 
+        this.x = this.getRandomX();
+
         this.addSprite(spriteLocation);
 
         this.points = points;
@@ -84,12 +86,15 @@ class Fish extends Entity {
     getMiddleX() {
         return WIDTH - this.width / 2;
     }
+
+    getRandomX(){
+        return Math.floor(Math.random() * (gameObject.bounds.maxX - this.width - gameObject.bounds.minX) + gameObject.bounds.minX);
+    }
 }
 
 class CommonFish extends Fish {
     constructor() {
         super(0, HEIGHT, 40, 36, 1.8, "assets/sprites/fish/common.webp", 4);
-        this.x = Math.floor(Math.random() * (WIDTH - this.width));
     }
 
     update(delta) {
@@ -100,7 +105,6 @@ class CommonFish extends Fish {
 class YellowFish extends Fish {
     constructor() {
         super(0, HEIGHT, 19 * 2, 18 * 2, 2.2, "assets/sprites/fish/yellow.webp", 5);
-        this.x = Math.floor(Math.random() * (WIDTH - this.width));
     }
 
     update(delta) {
