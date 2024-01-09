@@ -2,6 +2,9 @@ const entities = [];
 
 const WIDTH = 500, HEIGHT = 500;
 
+let playerHook;
+let isRunning = false;
+
 PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
 PIXI.settings.ROUND_PIXELS = false;
 PIXI.settings.RESOLUTION = 1;
@@ -48,6 +51,8 @@ addPlayerHook();
 
 addEventListeners();
 
+isRunning = true;
+
 /**
  * Initializes the game display and the game object.
  */
@@ -73,14 +78,16 @@ function init() {
 
     let updates = 0;
     app.ticker.add(delta => {
-        gameObject.update(delta, updates);
+        if(isRunning){
+            gameObject.update(delta, updates);
 
-        updates += delta;
-
-        background.tilePosition.y -= 1;
-
-        if (updates >= 60) {
-            updates = 0;
+            updates += delta;
+    
+            background.tilePosition.y -= 1;
+    
+            if (updates >= 60) {
+                updates = 0;
+            }
         }
     });
 
@@ -111,8 +118,7 @@ function addEventListeners() {
  * Adds the player hook to the game.
  */
 function addPlayerHook() {
-    let playerHook = new PlayerHook();
-    playerHook.x = WIDTH / 2 - playerHook.width / 2;
+    playerHook = new PlayerHook();
     entities.push(playerHook);
 }
 

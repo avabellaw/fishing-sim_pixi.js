@@ -1,29 +1,33 @@
 class Entity {
-    constructor(x, y, width, height, spriteLocation) {
+    constructor(x, y, width, height) {
         this.x = x;
         this.y = y;
+
+        this.width = width;
+        this.height = height;
+
+        this.updates = 0;
+    }
+
+    addSprite(spriteLocation) {
         this.spriteLocation = spriteLocation;
 
         this.sprite = PIXI.Sprite.from(spriteLocation);
         app.stage.addChild(this.sprite);
 
-
-        this.width = width;
-        this.height = height;
-
-        this.sprite.x = x;
-        this.sprite.y = y;
-
-        this.sprite.width = width;
-        this.sprite.height = height;
-
-        this.updates = 0;
-    }
-
-    update(delta) {
         this.sprite.x = this.x;
         this.sprite.y = this.y;
 
+        this.sprite.width = this.width;
+        this.sprite.height = this.height;
+    }
+
+    updateSprite() {
+        this.sprite.x = this.x;
+        this.sprite.y = this.y;
+    }
+
+    update(delta) {
         this.updates += delta;
         if (this.updates >= 60) {
             this.updates = 0;
@@ -35,7 +39,9 @@ class Entity {
 
 class Fish extends Entity {
     constructor(x, y, width, height, speed, spriteLocation, points) {
-        super(x, y, width, height, spriteLocation);
+        super(x, y, width, height);
+
+        this.addSprite(spriteLocation);
 
         this.points = points;
         this.speed = speed;
@@ -45,6 +51,9 @@ class Fish extends Entity {
 
     update(delta) {
         super.update(delta);
+
+        this.updateSprite();
+
         this.y -= this.speed;
 
         if (this.y < -this.height) {
@@ -52,7 +61,7 @@ class Fish extends Entity {
         }
     }
 
-    caughtFish(){
+    caughtFish() {
         this.removeFish();
         gameObject.addToScore(this.points)
     }
@@ -95,11 +104,52 @@ class YellowFish extends Fish {
 
 class PlayerHook extends Entity {
     constructor() {
-        super(0, 0, 24, 40, "assets/sprites/hook.webp");
+        super(WIDTH / 2, 0, 24, 40);
+
+        this.hookLine = new HookLine(this, 2);
+
+        // Adjust x for playerHook width
+        this.x -= this.width / 2
+        this.addSprite("assets/sprites/hook.webp");
     }
 
     update() {
         super.update();
+        this.updateSprite();
+        this.hookLine.update(this.x, this.y);
+    }
+}
+
+// Hook line
+
+class HookLine extends Entity {
+    constructor(playerHook, lineThickness) {
+        super(WIDTH / 2 - lineThickness / 2, 0);
+
+        this.playerHook = playerHook;
+        this.lineThickness = lineThickness;
+
+        this.START_X = this.x;
+        this.START_Y = this.y;
+
+        this.lineGraphics = new PIXI.Graphics();
+        this.lineGraphics.lineStyle(lineThickness, 0xffd900, 1);
+        this.lineGraphics.moveTo(this.x, this.y);
+        this.lineGraphics.lineTo(this.x, this.y);
+
+        app.stage.addChild(this.lineGraphics);
+    }
+
+    update(x, y) {
+        super.update();
+        
+        this.x = x + this.playerHook.width - 3;
+        this.y = y;
+        
+        this.lineGraphics.clear();
+        this.lineGraphics.lineStyle(this.lineThickness, 0x000000, 1);
+        this.lineGraphics.moveTo(this.START_X, this.START_Y);
+        this.lineGraphics.lineTo(this.x, this.y)
     }
 }
 
