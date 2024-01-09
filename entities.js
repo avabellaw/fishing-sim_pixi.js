@@ -126,12 +126,6 @@ class PlayerHook extends Entity {
         this.addSprite("assets/sprites/hook.webp");
 
         this.sprite.interactive = true;
-        // this.sprite.on("mouseenter", () => {
-        //     document.body.style.cursor = "none";
-        // });
-        // this.sprite.on("mouseleave", () => {
-        //     document.body.style.cursor = "default";
-        // });
     }
 
     update() {
@@ -153,8 +147,10 @@ class PlayerHook extends Entity {
     }
 }
 
-// Hook line
 
+/**
+ * The fishing line that connects to the player hook.
+ */
 class HookLine extends Entity {
     constructor(playerHook, lineThickness) {
         super(WIDTH / 2 - lineThickness / 2, 0);

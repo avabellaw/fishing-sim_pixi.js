@@ -50,7 +50,6 @@ addPlayerHook();
 
 
 const CANVAS = document.getElementsByTagName("canvas")[0];
-document.body.style.cursor = 'url("assets/sprites/cursor.webp"),auto';
 
 addEventListeners();
 
@@ -107,13 +106,13 @@ function addEventListeners() {
         playerHook.desiredY = event.offsetY - playerHook.height / 2;
     };
 
-    // CANVAS.onmouseenter = function (event) {
-    //     document.body.style.cursor = "pointer";
-    // };
+    CANVAS.onmouseenter = function (event) {
+        document.body.style.cursor = 'url("assets/sprites/cursor.webp"),auto';
+    };
 
-    // CANVAS.onmouseleave = function (event) {
-    //     document.body.style.cursor = "default";
-    // };
+    CANVAS.onmouseleave = function (event) {
+        document.body.style.cursor = "default";
+    };
 }
 
 /**
