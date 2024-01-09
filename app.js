@@ -2,6 +2,8 @@ const entities = [];
 
 const WIDTH = 500, HEIGHT = 500;
 
+const BACKGROUND_SCALE = 2.5;
+
 let playerHook;
 let isRunning = false;
 
@@ -15,6 +17,12 @@ let background;
 let gameObject = {
     score: 0,
     entitiesStack: [],
+    bounds: {
+        minX: 12 * BACKGROUND_SCALE,
+        maxX: WIDTH - 12 * BACKGROUND_SCALE,
+        minY: 0, 
+        maxY: HEIGHT
+    },
     update: function (delta, updates) {
         entities.forEach(entity => {
             entity.update(delta);
@@ -71,8 +79,8 @@ function init() {
         app.screen.height,
     );
 
-    background.tileScale.x = 2.5;
-    background.tileScale.y = 2.5;
+    background.tileScale.x = BACKGROUND_SCALE;
+    background.tileScale.y = BACKGROUND_SCALE;
 
     app.stage.addChild(background);
 

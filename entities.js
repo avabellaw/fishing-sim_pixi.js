@@ -134,15 +134,32 @@ class PlayerHook extends Entity {
         this.hookLine.update(this.x, this.y);
 
         if (this.y < this.desiredY - this.speed / 2) {
-            this.y += this.speed;
+            if (this.y + this.speed + this.height > gameObject.bounds.maxY) {
+                this.y = gameObject.bounds.maxY - this.height;
+            } else {
+                this.y += this.speed;
+            }
+
         } else if (this.y > this.desiredY + this.speed / 2) {
-            this.y -= this.speed;
+            if (this.y - this.speed - this.height < gameObject.bounds.minY) {
+                this.y = gameObject.bounds.minY;
+            } else {
+                this.y -= this.speed;
+            }
         }
 
         if (this.x < this.desiredX - this.speed / 2) {
-            this.x += this.speed;
+            if (this.x + this.speed + this.width > gameObject.bounds.maxX) {
+                this.x = gameObject.bounds.maxX - this.width;
+            } else {
+                this.x += this.speed;
+            }
         } else if (this.x > this.desiredX + this.speed / 2) {
-            this.x -= this.speed;
+            if (this.x - this.speed - this.width < gameObject.bounds.minX) {
+                this.x = gameObject.bounds.minX;
+            } else {
+                this.x -= this.speed;
+            }
         }
     }
 }
