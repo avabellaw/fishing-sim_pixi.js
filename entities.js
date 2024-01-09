@@ -24,9 +24,9 @@ class Entity {
         this.sprite.x = this.x;
         this.sprite.y = this.y;
 
-        updates += delta;
-        if (updates >= 60) {
-            updates = 0;
+        this.updates += delta;
+        if (this.updates >= 60) {
+            this.updates = 0;
         }
     }
 }

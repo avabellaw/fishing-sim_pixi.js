@@ -43,26 +43,12 @@ const app = new PIXI.Application({
 init();
 
 const FISH_TYPES = { commonFish: new CommonFish(), yellowFish: new YellowFish() };
-let updates = 0;
 let playerHook = new PlayerHook();
 playerHook.x = WIDTH / 2 - playerHook.width / 2;
 entities.push(playerHook);
 
-// Mouse events
+addEventListeners();
 
-const CANVAS = document.getElementsByTagName("canvas")[0];
-CANVAS.onmousemove = function (event) {
-    playerHook.x = event.offsetX - playerHook.width / 2;
-    playerHook.y = event.offsetY - playerHook.height / 2;
-};
-
-CANVAS.onmouseenter = function (event) {
-    document.body.style.cursor = "none";
-};
-
-CANVAS.onmouseleave = function (event) {
-    document.body.style.cursor = "default";
-};
 /**
  * Initializes the game display.
  */
@@ -100,6 +86,23 @@ function init() {
     });
 
     document.getElementById("game-container").appendChild(app.view);
+}
+
+function addEventListeners() {
+    // Mouse events
+    const CANVAS = document.getElementsByTagName("canvas")[0];
+    CANVAS.onmousemove = function (event) {
+        playerHook.x = event.offsetX - playerHook.width / 2;
+        playerHook.y = event.offsetY - playerHook.height / 2;
+    };
+
+    CANVAS.onmouseenter = function (event) {
+        document.body.style.cursor = "none";
+    };
+
+    CANVAS.onmouseleave = function (event) {
+        document.body.style.cursor = "default";
+    };
 }
 
 // Helper functions
