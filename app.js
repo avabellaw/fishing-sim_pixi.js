@@ -43,14 +43,13 @@ const app = new PIXI.Application({
 init();
 
 const FISH_TYPES = { commonFish: new CommonFish(), yellowFish: new YellowFish() };
-let playerHook = new PlayerHook();
-playerHook.x = WIDTH / 2 - playerHook.width / 2;
-entities.push(playerHook);
+
+addPlayerHook();
 
 addEventListeners();
 
 /**
- * Initializes the game display.
+ * Initializes the game display and the game object.
  */
 function init() {
     document.getElementById("score-container").style.maxWidth = WIDTH;
@@ -88,6 +87,9 @@ function init() {
     document.getElementById("game-container").appendChild(app.view);
 }
 
+/**
+ * Adds event listeners to the canvas.
+ */
 function addEventListeners() {
     // Mouse events
     const CANVAS = document.getElementsByTagName("canvas")[0];
@@ -105,8 +107,21 @@ function addEventListeners() {
     };
 }
 
+/**
+ * Adds the player hook to the game.
+ */
+function addPlayerHook() {
+    let playerHook = new PlayerHook();
+    playerHook.x = WIDTH / 2 - playerHook.width / 2;
+    entities.push(playerHook);
+}
+
 // Helper functions
 
+/**
+ * Randomly selects a fish and returns it.
+ * @returns {Fish} A random fish.
+ */
 function getRandomFish() {
     switch (Math.floor(Math.random() * 2)) {
         case 0:
@@ -116,6 +131,10 @@ function getRandomFish() {
     }
 }
 
+/**
+ * Add an entity to the game.
+ * @param {Entity} The entity to add 
+ */
 function addEntity(entity) {
     entities.push(entity);
     app.stage.addChild(entity.sprite);
