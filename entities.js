@@ -9,10 +9,14 @@ class Entity {
         this.updates = 0;
     }
 
-    addSprite(spriteLocation) {
+    getSprite(spriteLocation){
         this.spriteLocation = spriteLocation;
 
-        this.sprite = PIXI.Sprite.from(spriteLocation);
+        return PIXI.Sprite.from(spriteLocation);
+    }
+
+    addSprite(sprite) {
+        this.sprite = sprite;
         app.stage.addChild(this.sprite);
 
         this.sprite.x = this.x;
@@ -50,7 +54,7 @@ class Fish extends Entity {
 
         this.x = this.getRandomX();
 
-        this.addSprite(spriteLocation);
+        this.addSprite(this.getSprite(spriteLocation));
 
         this.points = points;
         this.speed = speed;
@@ -127,7 +131,7 @@ class PlayerHook extends Entity {
 
         // Adjust x for playerHook width
         this.x -= this.width / 2;
-        this.addSprite("assets/sprites/hook.webp");
+        this.addSprite(this.getSprite("assets/sprites/hook.webp"));
 
         this.sprite.interactive = true;
     }
