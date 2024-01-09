@@ -113,20 +113,43 @@ class YellowFish extends Fish {
 // PLAYER HOOK
 
 class PlayerHook extends Entity {
-    constructor() {
+    constructor(speed) {
         super(WIDTH / 2, 0, 24, 40);
 
+        this.desiredX = this.x;
+        this.desiredY = this.y;
         this.hookLine = new HookLine(this, 2);
+        this.speed = speed;
 
         // Adjust x for playerHook width
-        this.x -= this.width / 2
+        this.x -= this.width / 2;
         this.addSprite("assets/sprites/hook.webp");
+
+        this.sprite.interactive = true;
+        this.sprite.on("mouseenter", () => {
+            document.body.style.cursor = "none";
+        });
+        this.sprite.on("mouseleave", () => {
+            document.body.style.cursor = "default";
+        });
     }
 
     update() {
         super.update();
         this.updateSprite();
         this.hookLine.update(this.x, this.y);
+
+        if (this.y < this.desiredY - this.speed ) {
+            this.y += this.speed;
+        } else if (this.y > this.desiredY + this.speed ) {
+            this.y -= this.speed;
+        }
+
+        if (this.x < this.desiredX - this.speed ) {
+            this.x += this.speed;
+        } else if (this.x > this.desiredX + this.speed ) {
+            this.x -= this.speed;
+        }
     }
 }
 
@@ -152,10 +175,10 @@ class HookLine extends Entity {
 
     update(x, y) {
         super.update();
-        
+
         this.x = x + this.playerHook.width - 3;
         this.y = y;
-        
+
         this.lineGraphics.clear();
         this.lineGraphics.lineStyle(this.lineThickness, 0x000000, 1);
         this.lineGraphics.moveTo(this.START_X, this.START_Y);

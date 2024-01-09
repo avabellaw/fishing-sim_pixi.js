@@ -77,13 +77,13 @@ function init() {
 
     let updates = 0;
     app.ticker.add(delta => {
-        if(isRunning){
+        if (isRunning) {
             gameObject.update(delta, updates);
 
             updates += delta;
-    
+
             background.tilePosition.y -= 1;
-    
+
             if (updates >= 60) {
                 updates = 0;
             }
@@ -100,24 +100,24 @@ function addEventListeners() {
     // Mouse events
     const CANVAS = document.getElementsByTagName("canvas")[0];
     CANVAS.onmousemove = function (event) {
-        playerHook.x = event.offsetX - playerHook.width / 2;
-        playerHook.y = event.offsetY - playerHook.height / 2;
+        playerHook.desiredX = event.offsetX - playerHook.width / 2;
+        playerHook.desiredY = event.offsetY - playerHook.height / 2;
     };
 
-    CANVAS.onmouseenter = function (event) {
-        document.body.style.cursor = "none";
-    };
+    // CANVAS.onmouseenter = function (event) {
+    //     document.body.style.cursor = "pointer";
+    // };
 
-    CANVAS.onmouseleave = function (event) {
-        document.body.style.cursor = "default";
-    };
+    // CANVAS.onmouseleave = function (event) {
+    //     document.body.style.cursor = "default";
+    // };
 }
 
 /**
  * Adds the player hook to the game.
  */
 function addPlayerHook() {
-    playerHook = new PlayerHook();
+    playerHook = new PlayerHook(10);
     entities.push(playerHook);
 }
 
