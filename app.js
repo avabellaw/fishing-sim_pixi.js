@@ -31,7 +31,6 @@ let gameObject = {
     },
     addToScore: function (points) {
         this.score += points;
-        console.log(this.score);
         document.getElementById("score").innerText = this.score;
     }
 }

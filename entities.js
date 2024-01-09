@@ -33,6 +33,13 @@ class Entity {
             this.updates = 0;
         }
     }
+
+    isCollidingWith(entity) {
+        return this.x < entity.x + entity.width &&
+            this.x + this.width > entity.x &&
+            this.y < entity.y + entity.height &&
+            this.y + this.height > entity.y;
+    }
 }
 
 // FISH
@@ -45,12 +52,15 @@ class Fish extends Entity {
 
         this.points = points;
         this.speed = speed;
-        this.sprite.on('mouseenter', (event) => { this.caughtFish() });
         this.sprite.eventMode = "dynamic"
     }
 
     update(delta) {
         super.update(delta);
+
+        if (this.isCollidingWith(playerHook)) {
+            this.caughtFish();
+        }
 
         this.updateSprite();
 
