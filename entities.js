@@ -126,12 +126,12 @@ class PlayerHook extends Entity {
         this.addSprite("assets/sprites/hook.webp");
 
         this.sprite.interactive = true;
-        this.sprite.on("mouseenter", () => {
-            document.body.style.cursor = "none";
-        });
-        this.sprite.on("mouseleave", () => {
-            document.body.style.cursor = "default";
-        });
+        // this.sprite.on("mouseenter", () => {
+        //     document.body.style.cursor = "none";
+        // });
+        // this.sprite.on("mouseleave", () => {
+        //     document.body.style.cursor = "default";
+        // });
     }
 
     update() {
@@ -139,15 +139,15 @@ class PlayerHook extends Entity {
         this.updateSprite();
         this.hookLine.update(this.x, this.y);
 
-        if (this.y < this.desiredY - this.speed ) {
+        if (this.y < this.desiredY - this.speed / 2) {
             this.y += this.speed;
-        } else if (this.y > this.desiredY + this.speed ) {
+        } else if (this.y > this.desiredY + this.speed / 2) {
             this.y -= this.speed;
         }
 
-        if (this.x < this.desiredX - this.speed ) {
+        if (this.x < this.desiredX - this.speed / 2) {
             this.x += this.speed;
-        } else if (this.x > this.desiredX + this.speed ) {
+        } else if (this.x > this.desiredX + this.speed / 2) {
             this.x -= this.speed;
         }
     }

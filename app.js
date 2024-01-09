@@ -48,6 +48,10 @@ const FISH_TYPES = { commonFish: new CommonFish(), yellowFish: new YellowFish() 
 
 addPlayerHook();
 
+
+const CANVAS = document.getElementsByTagName("canvas")[0];
+document.body.style.cursor = 'url("assets/sprites/cursor.webp"),auto';
+
 addEventListeners();
 
 isRunning = true;
@@ -98,7 +102,6 @@ function init() {
  */
 function addEventListeners() {
     // Mouse events
-    const CANVAS = document.getElementsByTagName("canvas")[0];
     CANVAS.onmousemove = function (event) {
         playerHook.desiredX = event.offsetX - playerHook.width / 2;
         playerHook.desiredY = event.offsetY - playerHook.height / 2;
