@@ -9,7 +9,7 @@ class Entity {
         this.updates = 0;
     }
 
-    getSprite(spriteLocation){
+    getSprite(spriteLocation) {
         this.spriteLocation = spriteLocation;
 
         return PIXI.Sprite.from(spriteLocation);
@@ -33,6 +33,9 @@ class Entity {
 
     update(delta) {
         this.updates += delta;
+        if(this.sprite != undefined) {  
+            this.updateSprite();
+        }
         if (this.updates >= 60) {
             this.updates = 0;
         }
@@ -43,6 +46,47 @@ class Entity {
             this.x + this.width > entity.x &&
             this.y < entity.y + entity.height &&
             this.y + this.height > entity.y;
+    }
+
+    removeEntity() {
+        if (this.sprite != undefined) {
+            app.stage.removeChild(this.sprite);
+        }
+        entities.splice(entities.indexOf(this), 1);
+    }
+}
+
+class TextEntity extends Entity {
+    constructor(x, y, text, style) {
+        super(x, y, 0, 0);
+        this.text = text;
+        this.sprite = new PIXI.Text(text, style);
+        app.stage.addChild(this.sprite);
+
+        this.sprite.x = this.x;
+        this.sprite.y = this.y;
+    }
+
+    update(delta) {
+        super.update(delta);
+    }
+}
+
+class FishPointsText extends TextEntity {
+    constructor(x, y, text, speed) {
+        super(x, y, text, new PIXI.TextStyle({
+            fill: "#ffffff"
+        }));
+        this.speed = speed;
+    }
+
+    update() {
+        super.update();
+        this.y -= this.speed;
+
+        if (this.y < -this.height) {
+            this.removeEntity();
+        }
     }
 }
 
@@ -68,30 +112,24 @@ class Fish extends Entity {
             this.caughtFish();
         }
 
-        this.updateSprite();
-
         this.y -= this.speed;
 
         if (this.y < -this.height) {
-            this.removeFish();
+            this.removeEntity();
         }
     }
 
     caughtFish() {
-        this.removeFish();
+        entities.push(new FishPointsText(this.x, this.y, this.points, this.speed));
+        this.removeEntity();
         gameObject.addToScore(this.points)
-    }
-
-    removeFish() {
-        app.stage.removeChild(this.sprite);
-        entities.splice(entities.indexOf(this), 1);
     }
 
     getMiddleX() {
         return WIDTH - this.width / 2;
     }
 
-    getRandomX(){
+    getRandomX() {
         return Math.floor(Math.random() * (gameObject.bounds.maxX - this.width - gameObject.bounds.minX) + gameObject.bounds.minX);
     }
 }
@@ -138,7 +176,6 @@ class PlayerHook extends Entity {
 
     update() {
         super.update();
-        this.updateSprite();
         this.hookLine.update(this.x, this.y);
 
         if (this.y < this.desiredY - this.speed / 2) {
