@@ -2,7 +2,6 @@ const entities = [];
 
 
 let width = 400, height = 500;
-
 const SCALE = getScale();
 const WIDTH = width * SCALE;
 const HEIGHT = height * SCALE;
@@ -159,17 +158,17 @@ function addEntity(entity) {
     app.stage.addChild(entity.sprite);
 }
 
-function getScale(){
+function getScale(width, height){
     let vw = window.innerWidth;
     let vh = window.innerHeight;
 
     let scale = 1.2;
 
     if(vw < 600){
-        scale = vw / WIDTH;
+        scale = vw / width;
     }
 
-    let gameContainerHeight = HEIGHT + 60;
+    let gameContainerHeight = height + 60;
     if(scale * gameContainerHeight > vh){
         scale = vh / gameContainerHeight;
     }
