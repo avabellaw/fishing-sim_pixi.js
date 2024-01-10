@@ -84,7 +84,7 @@ class FishPointsText extends TextEntity {
         super.update();
         this.y -= this.speed;
 
-        if (this.y < -this.height) {
+        if (this.y < 0) {
             this.removeEntity();
         }
     }
@@ -114,7 +114,7 @@ class Fish extends Entity {
 
         this.y -= this.speed;
 
-        if (this.y < -this.height) {
+        if (this.y < 0) {
             this.removeEntity();
         }
     }
