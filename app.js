@@ -108,7 +108,7 @@ function init() {
  */
 function addEventListeners() {
     // Mouse events
-    CANVAS.onmousemove = function (event) {
+    CANVAS.onpointermove = function (event) {
         playerHook.desiredX = event.offsetX - playerHook.width / 2;
         playerHook.desiredY = event.offsetY - playerHook.height / 2;
     };
@@ -120,13 +120,6 @@ function addEventListeners() {
     CANVAS.onmouseleave = function (event) {
         document.body.style.cursor = "default";
     };
-
-    // Touch events
-
-    CANVAS.ontouchmove = function (event) {
-        playerHook.desiredX = event.offsetX - playerHook.width / 2;
-        playerHook.desiredY = event.offsetY - playerHook.height / 2;
-    }
 }
 
 /**
