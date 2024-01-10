@@ -160,7 +160,7 @@ class YellowFish extends Fish {
 
 class PlayerHook extends Entity {
     constructor(speed) {
-        super(WIDTH / 2, 0, 18, 37);
+        super(WIDTH / 2, 0, 18*0.75, 36*0.75);
 
         this.desiredX = this.x;
         this.desiredY = this.y;

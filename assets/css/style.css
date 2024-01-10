@@ -14,11 +14,6 @@ body {
     background-color: aquamarine;
 }
 
-#game-container {
-    min-width: var(--game-width);
-    min-height: var(--game-height);
-}
-
 #game-container[data-loading="true"] { 
     background: url(../gifs/loading.gif) no-repeat;
     background-position: center;
@@ -27,7 +22,6 @@ body {
 
 #score-container {
     background-color: white;
-    width: var(--game-width);
     padding: 0.4rem;
     box-sizing: border-box;
 }

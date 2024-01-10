@@ -1,9 +1,13 @@
 const entities = [];
 
-const SCALE = 1;
-const WIDTH = 350 * SCALE, HEIGHT = 500 * SCALE;
 
-const BACKGROUND_SCALE = 1.75 * SCALE;
+let width = 400, height = 500;
+
+const SCALE = getScale();
+const WIDTH = width * SCALE;
+const HEIGHT = height * SCALE;
+
+const BACKGROUND_SCALE = 2 * SCALE;
 
 let playerHook;
 let isRunning = false;
@@ -153,4 +157,22 @@ function getRandomFish() {
 function addEntity(entity) {
     entities.push(entity);
     app.stage.addChild(entity.sprite);
+}
+
+function getScale(){
+    let vw = window.innerWidth;
+    let vh = window.innerHeight;
+
+    let scale = 1.2;
+
+    if(vw < 600){
+        scale = vw / WIDTH;
+    }
+
+    let gameContainerHeight = HEIGHT + 60;
+    if(scale * gameContainerHeight > vh){
+        scale = vh / gameContainerHeight;
+    }
+
+    return scale
 }
