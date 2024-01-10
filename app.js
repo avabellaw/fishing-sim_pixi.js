@@ -24,7 +24,7 @@ let gameObject = {
     bounds: {
         minX: 12 * BACKGROUND_SCALE,
         maxX: WIDTH - 12 * BACKGROUND_SCALE,
-        minY: 0, 
+        minY: 0,
         maxY: HEIGHT
     },
     update: function (delta, updates) {
@@ -158,18 +158,21 @@ function addEntity(entity) {
     app.stage.addChild(entity.sprite);
 }
 
-function getScale(){
-    let vw = window.innerWidth;
+function getScale() {
+    // Margin for both sides on smaller screens
+    let gutter = 10;
+    let vw = window.innerWidth - gutter;
     let vh = window.innerHeight;
 
+    // Default scale
     let scale = 1.2;
 
-    if(vw < 600){
+    if (vw < 600) {
         scale = vw / width;
     }
 
     let gameContainerHeight = height + 60;
-    if(scale * gameContainerHeight > vh){
+    if (scale * gameContainerHeight > vh) {
         scale = vh / gameContainerHeight;
     }
 
