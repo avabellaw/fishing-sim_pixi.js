@@ -1,8 +1,8 @@
 const entities = [];
 
-const WIDTH = 500, HEIGHT = 500;
+const WIDTH = 350, HEIGHT = 500;
 
-const BACKGROUND_SCALE = 2.5;
+const BACKGROUND_SCALE = 1.75;
 
 let playerHook;
 let isRunning = false;
@@ -79,8 +79,7 @@ function init() {
         app.screen.height,
     );
 
-    background.tileScale.x = BACKGROUND_SCALE;
-    background.tileScale.y = BACKGROUND_SCALE;
+    background.tileScale.set(BACKGROUND_SCALE);
 
     app.stage.addChild(background);
 
@@ -121,6 +120,13 @@ function addEventListeners() {
     CANVAS.onmouseleave = function (event) {
         document.body.style.cursor = "default";
     };
+
+    // Touch events
+
+    CANVAS.ontouchmove = function (event) {
+        playerHook.desiredX = event.offsetX - playerHook.width / 2;
+        playerHook.desiredY = event.offsetY - playerHook.height / 2;
+    }
 }
 
 /**

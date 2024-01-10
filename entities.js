@@ -136,7 +136,7 @@ class Fish extends Entity {
 
 class CommonFish extends Fish {
     constructor() {
-        super(0, HEIGHT, 40, 36, 1.8, "assets/sprites/fish/common.webp", 4);
+        super(0, HEIGHT, 20, 18, 1.8, "assets/sprites/fish/common.webp", 4);
     }
 
     update(delta) {
@@ -146,7 +146,7 @@ class CommonFish extends Fish {
 
 class YellowFish extends Fish {
     constructor() {
-        super(0, HEIGHT, 19 * 2, 18 * 2, 2.2, "assets/sprites/fish/yellow.webp", 5);
+        super(0, HEIGHT, 19, 18, 2.2, "assets/sprites/fish/yellow.webp", 5);
     }
 
     update(delta) {
