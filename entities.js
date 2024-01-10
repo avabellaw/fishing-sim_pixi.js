@@ -33,7 +33,7 @@ class Entity {
 
     update(delta) {
         this.updates += delta;
-        if(this.sprite != undefined) {  
+        if (this.sprite != undefined) {
             this.updateSprite();
         }
         if (this.updates >= 60) {
@@ -73,20 +73,24 @@ class TextEntity extends Entity {
 }
 
 class FishPointsText extends TextEntity {
-    constructor(x, y, text, speed) {
+    constructor(x, y, text) {
         super(x, y, text, new PIXI.TextStyle({
             fill: "#ffffff"
         }));
 
         this.START_Y = this.y;
-        this.speed = speed + 3;
+        this.speed = 3;
     }
 
     update() {
         super.update();
         this.y -= this.speed;
 
-        if (this.y < 0) {
+
+        if(this.START_Y - this.y > 80)
+        this.sprite.alpha -= 0.03;
+
+        if (this.y < 0 || this.sprite.alpha <= 0) {
             this.removeEntity();
         }
     }
@@ -122,7 +126,7 @@ class Fish extends Entity {
     }
 
     caughtFish() {
-        entities.push(new FishPointsText(this.x, this.y, this.points, this.speed));
+        entities.push(new FishPointsText(this.x, this.y, this.points));
         this.removeEntity();
         gameObject.addToScore(this.points)
     }
@@ -138,7 +142,7 @@ class Fish extends Entity {
 
 class CommonFish extends Fish {
     constructor() {
-        super(0, HEIGHT, 20*1.75, 18*1.75, 1.8, "assets/sprites/fish/common.webp", 4);
+        super(0, HEIGHT, 20 * 1.75, 18 * 1.75, 1.8, "assets/sprites/fish/common.webp", 4);
     }
 
     update(delta) {
@@ -148,7 +152,7 @@ class CommonFish extends Fish {
 
 class YellowFish extends Fish {
     constructor() {
-        super(0, HEIGHT, 19*1.75, 18*1.75, 2.2, "assets/sprites/fish/yellow.webp", 5);
+        super(0, HEIGHT, 19 * 1.75, 18 * 1.75, 2.2, "assets/sprites/fish/yellow.webp", 5);
     }
 
     update(delta) {
@@ -162,7 +166,7 @@ class YellowFish extends Fish {
 
 class PlayerHook extends Entity {
     constructor(speed) {
-        super(WIDTH / 2, 0, 18*0.75, 36*0.75);
+        super(WIDTH / 2, 0, 18 * 0.75, 36 * 0.75);
 
         this.desiredX = this.x;
         this.desiredY = this.y;
