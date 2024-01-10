@@ -1,6 +1,4 @@
 * {
-    --game-width: 350px;
-    --game-height: 500px;
     margin:0;
     padding:0;
 }
@@ -18,6 +16,8 @@ body {
     background: url(../gifs/loading.gif) no-repeat;
     background-position: center;
     background-size: 5rem;
+    min-height: 400px;
+    min-width: 250px;
 }
 
 #score-container {

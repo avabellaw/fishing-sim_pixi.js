@@ -173,8 +173,5 @@ function getScale(){
         scale = vh / gameContainerHeight;
     }
 
-    console.log(width)
-    console.log(scale); 
-
     return scale
 }
