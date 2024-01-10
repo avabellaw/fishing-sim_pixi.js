@@ -13,13 +13,17 @@ body {
     background-image: url("../images/background.webp");
 }
 
+#game-container {
+    display: block;
+    min-height: 400px;
+    min-width: 250px;
+    border: 0.1rem solid;
+}
+
 #game-container[data-loading="true"] { 
     background: url(../gifs/loading.gif) no-repeat;
     background-position: center;
     background-size: 5rem;
-    min-height: 400px;
-    min-width: 250px;
-    border: 0.1rem solid;
 }
 
 #score-container {

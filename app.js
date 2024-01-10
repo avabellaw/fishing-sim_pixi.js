@@ -170,7 +170,7 @@ function getScale() {
     if (vw < 600) {
         scale = vw / width;
     }
-
+    
     let gameContainerHeight = height + 60;
     if (scale * gameContainerHeight > vh) {
         scale = vh / gameContainerHeight;
