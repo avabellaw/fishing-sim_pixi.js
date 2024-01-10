@@ -73,7 +73,7 @@ isRunning = true;
 function init() {
     document.getElementById("score-container").style.maxWidth = WIDTH;
 
-    app.renderer.backgroundColor = "transparent";
+    app.renderer.backgroundColor = "black";
 
     const texture = PIXI.Texture.from('assets/sprites/background.webp');
 
