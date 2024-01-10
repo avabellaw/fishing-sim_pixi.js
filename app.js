@@ -1,8 +1,9 @@
 const entities = [];
 
-const WIDTH = 350, HEIGHT = 500;
+const SCALE = 1;
+const WIDTH = 350 * SCALE, HEIGHT = 500 * SCALE;
 
-const BACKGROUND_SCALE = 1.75;
+const BACKGROUND_SCALE = 1.75 * SCALE;
 
 let playerHook;
 let isRunning = false;
