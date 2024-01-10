@@ -158,7 +158,7 @@ function addEntity(entity) {
     app.stage.addChild(entity.sprite);
 }
 
-function getScale(width, height){
+function getScale(){
     let vw = window.innerWidth;
     let vh = window.innerHeight;
 
@@ -172,6 +172,9 @@ function getScale(width, height){
     if(scale * gameContainerHeight > vh){
         scale = vh / gameContainerHeight;
     }
+
+    console.log(width)
+    console.log(scale); 
 
     return scale
 }
