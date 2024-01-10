@@ -10,6 +10,8 @@ body {
     flex-direction: column;
     height: 100vh;
 
+    font-size: calc(0.55rem + 0.2vw + 0.2vh);
+
     background-image: url("../images/background.webp");
 }
 
