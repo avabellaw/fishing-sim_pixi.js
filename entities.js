@@ -77,7 +77,9 @@ class FishPointsText extends TextEntity {
         super(x, y, text, new PIXI.TextStyle({
             fill: "#ffffff"
         }));
-        this.speed = speed;
+
+        this.START_Y = this.y;
+        this.speed = speed + 3;
     }
 
     update() {
@@ -136,7 +138,7 @@ class Fish extends Entity {
 
 class CommonFish extends Fish {
     constructor() {
-        super(0, HEIGHT, 20*1.25, 18*1.25, 1.8, "assets/sprites/fish/common.webp", 4);
+        super(0, HEIGHT, 20*1.75, 18*1.75, 1.8, "assets/sprites/fish/common.webp", 4);
     }
 
     update(delta) {
@@ -146,7 +148,7 @@ class CommonFish extends Fish {
 
 class YellowFish extends Fish {
     constructor() {
-        super(0, HEIGHT, 19*1.25, 18*1.25, 2.2, "assets/sprites/fish/yellow.webp", 5);
+        super(0, HEIGHT, 19*1.75, 18*1.75, 2.2, "assets/sprites/fish/yellow.webp", 5);
     }
 
     update(delta) {
