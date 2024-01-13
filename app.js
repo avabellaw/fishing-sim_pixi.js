@@ -155,7 +155,6 @@ function getRandomFish() {
  */
 function addEntity(entity) {
     entities.push(entity);
-    app.stage.addChild(entity.sprite);
 }
 
 function getScale() {

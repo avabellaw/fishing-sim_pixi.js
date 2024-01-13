@@ -9,21 +9,23 @@ class Entity {
         this.updates = 0;
     }
 
-    getSprite(spriteLocation) {
-        this.spriteLocation = spriteLocation;
-
-        return PIXI.Sprite.from(spriteLocation);
+    getSprite(spriteTexture) {
+        return PIXI.Sprite.from(spriteTexture);
     }
 
-    addSprite(sprite) {
-        this.sprite = sprite;
-        app.stage.addChild(this.sprite);
+    addSprite(spriteLocation) {
+        const texturePromise = PIXI.Assets.load(spriteLocation);
 
-        this.sprite.x = this.x;
-        this.sprite.y = this.y;
-
-        this.sprite.width = this.width;
-        this.sprite.height = this.height;
+        texturePromise.then((resolvedTexture) => { 
+            this.sprite = this.getSprite(resolvedTexture);
+    
+            this.sprite.x = this.x;
+            this.sprite.y = this.y;
+    
+            this.sprite.width = this.width;
+            this.sprite.height = this.height;
+            app.stage.addChild(this.sprite);
+        });
     }
 
     updateSprite() {
@@ -87,8 +89,8 @@ class FishPointsText extends TextEntity {
         this.y -= this.speed;
 
 
-        if(this.START_Y - this.y > 80)
-        this.sprite.alpha -= 0.03;
+        if (this.START_Y - this.y > 80)
+            this.sprite.alpha -= 0.03;
 
         if (this.y < 0 || this.sprite.alpha <= 0) {
             this.removeEntity();
@@ -104,11 +106,10 @@ class Fish extends Entity {
 
         this.x = this.getRandomX();
 
-        this.addSprite(this.getSprite(spriteLocation));
+        this.addSprite(spriteLocation);
 
         this.points = points;
         this.speed = speed;
-        this.sprite.eventMode = "dynamic"
     }
 
     update(delta) {
@@ -175,9 +176,7 @@ class PlayerHook extends Entity {
 
         // Adjust x for playerHook width
         this.x -= this.width / 2;
-        this.addSprite(this.getSprite("assets/sprites/hook.webp"));
-
-        this.sprite.interactive = true;
+        this.addSprite("assets/sprites/hook.webp");
     }
 
     update() {
