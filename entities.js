@@ -130,7 +130,7 @@ class Fish extends Entity {
         this.spriteName = spriteName;
 
         this.points = points;
-        this.speed = speed;
+        this.speed = speed * 1.75;
     }
 
     update(delta) {
@@ -170,7 +170,7 @@ class Fish extends Entity {
 
 class CommonFish extends Fish {
     constructor() {
-        super(0, HEIGHT, 20, 18, 1.8, "commonFish", 4);
+        super(0, HEIGHT, 20, 18, 2.4, "commonFish", 4);
     }
 
     update(delta) {
@@ -200,7 +200,7 @@ class ClownFish extends Fish {
 
 class AltClownFish extends Fish {
     constructor() {
-        super(0, HEIGHT, 29, 14, 2.5, "altClownFish", 2);
+        super(0, HEIGHT, 29, 14, 2.6, "altClownFish", 2);
     }
 
     update(delta) {
@@ -210,7 +210,7 @@ class AltClownFish extends Fish {
 
 class SlowFish extends Fish {
     constructor() {
-        super(0, HEIGHT, 30, 24, 1, "slowFish", 1);
+        super(0, HEIGHT, 30, 24, 1.5, "slowFish", 1);
     }
 
     update(delta) {
