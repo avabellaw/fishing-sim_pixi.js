@@ -37,6 +37,15 @@ class MenuItem {
         this.graphics.clear();
         this.draw();
     }
+
+    isWithinBounds(x, y) {
+        x /= SCALE;
+        y /= SCALE;
+        if (x >= this.itemContainer.x && x <= this.itemContainer.x + this.width && y >= this.itemContainer.y && y <= this.itemContainer.y + this.height)
+            return true;
+        else
+            return false;
+    }
 }
 
 class Button extends MenuItem {
@@ -45,12 +54,16 @@ class Button extends MenuItem {
         this.bgColour = bgColour;
         this.outlineColour = outlineColour;
 
-        this.y = getCenterY(this.height);
-       
         let buttonText = new MenuItemText(this, text);
         buttonText.centerText();
 
         this.draw();
+
+        CANVAS.onpointermove = (event) => {
+            if (this.isWithinBounds(event.clientX, event.clientY)) {
+                console.log("Mouse entered button");
+            }
+        }
     }
 
     draw() {

@@ -62,6 +62,8 @@ document.getElementById("game-container").appendChild(app.view);
 
 startLoadingEntitySprites();
 
+const CANVAS = document.getElementsByTagName("canvas")[0];
+
 const startMenu = new StartMenu();
 
 app.stage.addChild(startMenu.container);
@@ -114,7 +116,6 @@ function initGame() {
  * Adds event listeners to the canvas.
  */
 function addEventListeners() {
-    const CANVAS = document.getElementsByTagName("canvas")[0];
     // Mouse events
     CANVAS.onpointermove = function (event) {
         playerHook.desiredX = event.offsetX - playerHook.width / 2;
