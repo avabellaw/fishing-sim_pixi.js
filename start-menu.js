@@ -4,6 +4,7 @@ class StartMenu {
 
         let btn = new Button(50, 50, WIDTH - 100, 60, "Start Game", 0x3333ff, 0xffffff, this);
         btn.moveTo(50, getCenterY(btn.height));
+        btn.makeInteractive();
     }
 }
 
@@ -17,8 +18,20 @@ class MenuItem {
         this.width = width;
         this.height = height;
 
+        this.isHoveredOver = false;
+
         this.itemContainer.addChild(this.graphics);
         startMenu.container.addChild(this.itemContainer);
+    }
+
+    makeInteractive() {
+        this.itemContainer.eventMode = 'static';
+        this.itemContainer.cursor = 'pointer';
+        this.itemContainer.on("pointerup", this.clicked);
+    }
+
+    setHoveredOver(isHoveredOver) {
+        this.isHoveredOver = isHoveredOver;
     }
 
     moveTo(x, y) {
@@ -39,8 +52,8 @@ class MenuItem {
     }
 
     isWithinBounds(x, y) {
-        x /= SCALE;
-        y /= SCALE;
+        console.log(x);
+        console.log("must be greater than " + this.itemContainer.x + " less than " + this.width);
         if (x >= this.itemContainer.x && x <= this.itemContainer.x + this.width && y >= this.itemContainer.y && y <= this.itemContainer.y + this.height)
             return true;
         else
@@ -58,12 +71,6 @@ class Button extends MenuItem {
         buttonText.centerText();
 
         this.draw();
-
-        CANVAS.onpointerup = (event) => {
-            if (this.isWithinBounds(event.clientX, event.clientY)) {
-                this.clicked();
-            }
-        }
     }
 
     draw() {
