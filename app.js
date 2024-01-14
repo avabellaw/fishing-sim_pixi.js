@@ -27,13 +27,17 @@ let gameObject = {
         minY: 0,
         maxY: HEIGHT
     },
+    spawnObjectCoolOff: 10,
+    spawnCounter: 0,
     update: function (delta, updates) {
         entities.forEach(entity => {
             entity.update(delta);
         });
 
-        if (updates % 60 == 0 && this.entitiesStack.length > 0) {
+        if (this.entitiesStack.length > 0 &&
+            this.spawnCounter++ >= this.spawnObjectCoolOff + (this.entitiesStack.length * 0.5)) {
             addEntity(this.entitiesStack.pop());
+            this.spawnCounter = 0;
         }
     },
     init: function () {
@@ -140,20 +144,24 @@ function addPlayerHook() {
  * @returns {Fish} A random fish.
  */
 function getRandomFish() {
-    let randomNum = Math.floor(Math.random() * 6)
-    switch (randomNum) {
-        case 0:
+    let randomNum = Math.floor(Math.random() * 100)
+
+    if(randomNum < 50) {
+        if(randomNum < 30) {
             return new CommonFish();
-        case 1:
+        } else {
             return new YellowFish();
-        case 2:
+        }
+    } else if(randomNum < 80)  {
+        if(randomNum < 65) {
             return new ClownFish();
-        case 3:
+        } else {
             return new AltClownFish();
-        case 4:
-            return new SlowFish();
-        case 5:
-            return new Boot();
+        }
+    } else if(randomNum < 90) {
+        return new SlowFish();
+    } else {
+        return new Boot();
     }
 }
 
@@ -177,7 +185,7 @@ function getScale() {
     if (vw < 600) {
         scale = vw / width;
     }
-    
+
     let gameContainerHeight = height + 60;
     if (scale * gameContainerHeight > vh) {
         scale = vh / gameContainerHeight;

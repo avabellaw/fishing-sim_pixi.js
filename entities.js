@@ -185,7 +185,7 @@ class PassingObject extends Entity {
 
 class Fish extends PassingObject {
     constructor(x, y, width, height, speed, spriteName, points) {
-        super(x, y, width * 1.75, height * 1.75, speed * 1.75, spriteName, points);
+        super(x, y, width * 1.75, height * 1.75, speed * 1.70, spriteName, points);
     }
 
     update(delta) {
