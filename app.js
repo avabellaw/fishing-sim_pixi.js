@@ -35,13 +35,13 @@ let gameObject = {
         });
 
         if (this.entitiesStack.length > 0 &&
-            this.spawnCounter++ >= this.spawnObjectCoolOff + (this.entitiesStack.length * 0.5)) {
+            this.spawnCounter++ >= this.spawnObjectCoolOff + (this.entitiesStack.length * 0.3)) {
             addEntity(this.entitiesStack.pop());
             this.spawnCounter = 0;
         }
     },
     init: function () {
-        for (let i = 0; i < 50; i++) {
+        for (let i = 0; i < 200; i++) {
             this.entitiesStack.push(getRandomFish());
         }
     },
@@ -58,30 +58,30 @@ const app = new PIXI.Application({
     antialias: false
 });
 
+document.getElementById("game-container").appendChild(app.view);
+
 startLoadingEntitySprites();
 
-init();
+const startMenu = new StartMenu();
 
-addPlayerHook();
+app.stage.addChild(startMenu.container);
 
-const CANVAS = document.getElementsByTagName("canvas")[0];
-
-addEventListeners();
-
-isRunning = true;
+function startGame(){
+    initGame();
+    
+    addEventListeners();
+    
+    isRunning = true;
+}
 
 /**
  * Initializes the game display and the game object.
  */
-function init() {
-    document.getElementById("score-container").style.maxWidth = WIDTH;
-
-    app.renderer.backgroundColor = "black";
-
-    const texture = PIXI.Texture.from('assets/sprites/background.webp');
+function initGame() {
+    const bgTexture = PIXI.Texture.from('assets/sprites/background.webp');
 
     const background = new PIXI.TilingSprite(
-        texture,
+        bgTexture,
         app.screen.width,
         app.screen.height,
     );
@@ -107,13 +107,14 @@ function init() {
         }
     });
 
-    document.getElementById("game-container").appendChild(app.view);
+    addPlayerHook();
 }
 
 /**
  * Adds event listeners to the canvas.
  */
 function addEventListeners() {
+    const CANVAS = document.getElementsByTagName("canvas")[0];
     // Mouse events
     CANVAS.onpointermove = function (event) {
         playerHook.desiredX = event.offsetX - playerHook.width / 2;
