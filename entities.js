@@ -230,6 +230,22 @@ class SlowFish extends Fish {
     }
 }
 
+// BOOT
+
+class Boot extends PassingObject {
+    constructor() {
+        super(0, HEIGHT, 35, 57, 2.5, "boot", -12);
+    }
+
+    update(delta) {
+        super.update(delta);
+
+        if (this.isCollidingWith(playerHook)) {
+            this.caughtObject();
+        }
+    }
+}
+
 // END FISH
 
 // PLAYER HOOK
@@ -333,7 +349,8 @@ function startLoadingEntitySprites() {
         "yellowFish": "yellow",
         "clownFish": "clown",
         "altClownFish": "alt-clown",
-        "slowFish": "slow"
+        "slowFish": "slow",
+        "boot": "boot"
     };
 
     // Add all fish sprites to the loader from the object.

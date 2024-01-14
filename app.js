@@ -140,7 +140,8 @@ function addPlayerHook() {
  * @returns {Fish} A random fish.
  */
 function getRandomFish() {
-    switch (Math.floor(Math.random() * 5)) {
+    let randomNum = Math.floor(Math.random() * 6)
+    switch (randomNum) {
         case 0:
             return new CommonFish();
         case 1:
@@ -151,6 +152,8 @@ function getRandomFish() {
             return new AltClownFish();
         case 4:
             return new SlowFish();
+        case 5:
+            return new Boot();
     }
 }
 
