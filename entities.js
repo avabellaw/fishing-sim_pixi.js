@@ -51,7 +51,7 @@ class Entity {
             this.y < entity.y + entity.height &&
             this.y + this.height > entity.y;
     }
-    
+
     // Use already rendered sprite or force it to render.
     renderEntity(spriteName) {
         PIXI.Assets.load(spriteName).then((texture) => {
@@ -71,6 +71,14 @@ class Entity {
             app.stage.removeChild(this.sprite);
         }
         entities.splice(entities.indexOf(this), 1);
+    }
+
+    getMiddleX() {
+        return WIDTH - this.width / 2;
+    }
+
+    getRandomX() {
+        return Math.floor(Math.random() * (gameObject.bounds.maxX - this.width - gameObject.bounds.minX) + gameObject.bounds.minX);
     }
 }
 
@@ -120,30 +128,26 @@ class FishPointsText extends TextEntity {
     }
 }
 
-// FISH
+// PASSING OBJECT
 
-class Fish extends Entity {
+class PassingObject extends Entity {
     constructor(x, y, width, height, speed, spriteName, points) {
-        super(x, y, width * 1.75, height * 1.75);
+        super(x, y, width, height);
 
         this.x = this.getRandomX();
         this.spriteName = spriteName;
 
         this.points = points;
-        this.speed = speed * 1.75;
+        this.speed = speed;
     }
 
     update(delta) {
         super.update(delta);
 
-        if(!this.rendered) {
+        if (!this.rendered) {
             // As soon as the entity is being used, render it.
             this.renderEntity(this.spriteName);
             this.rendered = true;
-        }
-
-        if (this.isCollidingWith(playerHook)) {
-            this.caughtFish();
         }
 
         this.y -= this.speed;
@@ -153,18 +157,26 @@ class Fish extends Entity {
         }
     }
 
-    caughtFish() {
+    caughtObject() {
         entities.push(new FishPointsText(this.x, this.y, this.points));
         this.removeEntity();
         gameObject.addToScore(this.points)
     }
+}
 
-    getMiddleX() {
-        return WIDTH - this.width / 2;
+// FISH
+
+class Fish extends PassingObject {
+    constructor(x, y, width, height, speed, spriteName, points) {
+        super(x, y, width * 1.75, height * 1.75, speed * 1.75, spriteName, points);
     }
 
-    getRandomX() {
-        return Math.floor(Math.random() * (gameObject.bounds.maxX - this.width - gameObject.bounds.minX) + gameObject.bounds.minX);
+    update(delta) {
+        super.update(delta);
+
+        if (this.isCollidingWith(playerHook)) {
+            this.caughtObject();
+        }
     }
 }
 
@@ -317,18 +329,18 @@ function startLoadingEntitySprites() {
 
     // Key: Sprite name to access it, Value: Sprite filename
     const fishSpriteData = {
-        "commonFish":"common",
-        "yellowFish":"yellow",
-        "clownFish":"clown",
-        "altClownFish":"alt-clown",
-        "slowFish":"slow"
+        "commonFish": "common",
+        "yellowFish": "yellow",
+        "clownFish": "clown",
+        "altClownFish": "alt-clown",
+        "slowFish": "slow"
     };
 
     // Add all fish sprites to the loader from the object.
-    for(const [key, filename] of Object.entries(fishSpriteData)) {
+    for (const [key, filename] of Object.entries(fishSpriteData)) {
         PIXI.Assets.add(key, fishAssetsLocation + filename + ".webp");
     }
-    
+
     // Load all sprites in the background using the key/sprite name.
     PIXI.Assets.backgroundLoad(Object.keys(fishSpriteData));
 }
