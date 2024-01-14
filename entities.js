@@ -152,7 +152,7 @@ class PassingObject extends Entity {
 
         this.y -= this.speed;
 
-        if (this.y < 0) {
+        if (this.y < -this.height) {
             this.removeEntity();
         }
     }
