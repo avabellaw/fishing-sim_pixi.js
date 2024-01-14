@@ -124,13 +124,10 @@ class Fish extends Entity {
 
         this.points = points;
         this.speed = speed;
-
-        console.log("Fish created")
     }
 
     update(delta) {
         super.update(delta);
-        console.log("Clown: " + (this instanceof ClownFish));
 
         if(!this.rendered) {
             this.renderEntity(this.spriteName);
@@ -196,6 +193,16 @@ class ClownFish extends Fish {
 class AltClownFish extends Fish {
     constructor() {
         super(0, HEIGHT, 29, 14, 2.5, "altClownFish", 2);
+    }
+
+    update(delta) {
+        super.update(delta);
+    }
+}
+
+class SlowFish extends Fish {
+    constructor() {
+        super(0, HEIGHT, 30, 24, 1, "slowFish", 1);
     }
 
     update(delta) {
@@ -294,10 +301,19 @@ class HookLine extends Entity {
 // END PLAYER HOOK
 
 function startLoadingEntitySprites() {
-    PIXI.Assets.add("commonFish", "assets/sprites/fish/common.webp");
-    PIXI.Assets.add("yellowFish", "assets/sprites/fish/yellow.webp");
-    PIXI.Assets.add("clownFish", "assets/sprites/fish/clown.webp");
-    PIXI.Assets.add("altClownFish", "assets/sprites/fish/alt-clown.webp");
+    const fishAssetsLocation = "assets/sprites/fish/";
 
-    PIXI.Assets.backgroundLoad(["commonFish", "yellowFish", "clownFish", "altClownFish"]);
+    const fishSpriteData = {
+        "commonFish":"common",
+        "yellowFish":"yellow",
+        "clownFish":"clown",
+        "altClownFish":"alt-clown",
+        "slowFish":"slow"
+    };
+
+    for(const [key, filename] of Object.entries(fishSpriteData)) {
+        PIXI.Assets.add(key, fishAssetsLocation + filename + ".webp");
+    }
+    
+    PIXI.Assets.backgroundLoad(Object.keys(fishSpriteData));
 }
