@@ -12,7 +12,8 @@ body {
 
     font-size: calc(0.55rem + 0.2vw + 0.2vh);
 
-    background-image: url("../images/background.webp");
+    /* background-image: url("../images/background.webp"); */
+    background-color: rgb(10,10,40);
 }
 
 canvas {

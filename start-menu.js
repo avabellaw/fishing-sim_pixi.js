@@ -2,7 +2,14 @@ class StartMenu {
     constructor() {
         this.container = new PIXI.Container();
 
-        let btn = new Button(50, 50, WIDTH - 100, 60, "Start Game", 0x3333ff, 0xffffff, this);
+        let bgTexture = PIXI.Texture.from("assets/images/background.webp");
+        bgTexture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+        
+        let bg = new PIXI.Sprite(bgTexture);
+        bg.x = -600;
+        this.container.addChild(bg);
+
+        let btn = new Button(50, 50, WIDTH - 100, 60, "Start Game", 0x3333ff, 0xaaaaaa, this);
         btn.moveTo(50, getCenterY(btn.height));
         btn.makeInteractive();
     }
@@ -18,8 +25,6 @@ class MenuItem {
         this.width = width;
         this.height = height;
 
-        this.isHoveredOver = false;
-
         this.itemContainer.addChild(this.graphics);
         startMenu.container.addChild(this.itemContainer);
     }
@@ -28,10 +33,8 @@ class MenuItem {
         this.itemContainer.eventMode = 'static';
         this.itemContainer.cursor = 'pointer';
         this.itemContainer.on("pointerup", this.clicked);
-    }
-
-    setHoveredOver(isHoveredOver) {
-        this.isHoveredOver = isHoveredOver;
+        this.itemContainer.on("pointerover", this.hoveredOver);
+        this.itemContainer.on("pointerout", this.hoveredOut);
     }
 
     moveTo(x, y) {
@@ -69,13 +72,14 @@ class Button extends MenuItem {
 
         let buttonText = new MenuItemText(this, text);
         buttonText.centerText();
+        this.alpha = 1;
 
         this.draw();
     }
 
     draw() {
         this.graphics.lineStyle(2, this.outlineColour, 1);
-        this.graphics.beginFill(this.bgColour);
+        this.graphics.beginFill(this.bgColour, this.alpha);
         this.graphics.drawRect(0, 0, this.width, this.height);
         this.graphics.endFill();
     }
@@ -83,6 +87,14 @@ class Button extends MenuItem {
     clicked(e) {
         startGame();
         playerHook.followPointer(e);
+    }
+
+    hoveredOver() {
+        this.alpha = 1;
+    }
+
+    hoveredOut() {
+        this.alpha = 0.9;
     }
 }
 
