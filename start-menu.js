@@ -4,19 +4,30 @@ class StartMenu {
 
         let bgTexture = PIXI.Texture.from("assets/images/background.webp");
         bgTexture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-        
+
         let bg = new PIXI.Sprite(bgTexture);
         bg.x = -600;
         this.container.addChild(bg);
 
-        let btn = new Button(50, 50, WIDTH - 100, 60, "Start Game", 0x3333ff, 0xaaaaaa, this);
-        btn.moveTo(50, getCenterY(btn.height));
+        let btn = new Button(0, 0, WIDTH - 100, 60, "Start Game", 0x3333ff, 0xaaaaaa);
+        let label = new Label(0, 0, WIDTH - 100, 20, "Fishing Sim");
+        btn.itemContainer.y = 100;
+        label.itemContainer.y = 0;
+
         btn.makeInteractive();
+
+        let mainContainer = new PIXI.Container();
+        mainContainer.addChild(label.itemContainer);
+        mainContainer.addChild(btn.itemContainer);
+        mainContainer.x = 50;
+        mainContainer.y = getCenterY(mainContainer.height);
+
+        this.container.addChild(mainContainer);
     }
 }
 
 class MenuItem {
-    constructor(x, y, width, height, startMenu) {
+    constructor(x, y, width, height) {
         this.itemContainer = new PIXI.Container();
         this.graphics = new PIXI.Graphics();
 
@@ -26,7 +37,6 @@ class MenuItem {
         this.height = height;
 
         this.itemContainer.addChild(this.graphics);
-        startMenu.container.addChild(this.itemContainer);
     }
 
     makeInteractive() {
@@ -65,8 +75,8 @@ class MenuItem {
 }
 
 class Button extends MenuItem {
-    constructor(x, y, width, height, text, bgColour, outlineColour, startMenu) {
-        super(x, y, width, height, startMenu);
+    constructor(x, y, width, height, text, bgColour, outlineColour) {
+        super(x, y, width, height);
         this.bgColour = bgColour;
         this.outlineColour = outlineColour;
 
@@ -96,6 +106,14 @@ class Button extends MenuItem {
     hoveredOut() {
         this.alpha = 0.9;
     }
+}
+
+class Label extends MenuItem {
+    constructor(x, y, width, height, text) {
+        super(x, y, width, height);
+        new MenuItemText(this, text).centerText();
+    }
+
 }
 
 class MenuItemText {
