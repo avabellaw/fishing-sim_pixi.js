@@ -37,7 +37,7 @@ let gameObject = {
         }
     },
     init: function () {
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < 50; i++) {
             this.entitiesStack.push(getRandomFish());
         }
     },
@@ -140,11 +140,15 @@ function addPlayerHook() {
  * @returns {Fish} A random fish.
  */
 function getRandomFish() {
-    switch (Math.floor(Math.random() * 2)) {
+    switch (Math.floor(Math.random() * 4)) {
         case 0:
             return new CommonFish();
         case 1:
             return new YellowFish();
+        case 2:
+            return new ClownFish();
+        case 3:
+            return new AltClownFish();
     }
 }
 

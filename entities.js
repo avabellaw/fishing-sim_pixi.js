@@ -117,11 +117,10 @@ class FishPointsText extends TextEntity {
 
 class Fish extends Entity {
     constructor(x, y, width, height, speed, spriteName, points) {
-        super(x, y, width, height);
+        super(x, y, width * 1.75, height * 1.75);
 
         this.x = this.getRandomX();
         this.spriteName = spriteName;
-        // this.addSprite(spriteLocation);
 
         this.points = points;
         this.speed = speed;
@@ -131,6 +130,7 @@ class Fish extends Entity {
 
     update(delta) {
         super.update(delta);
+        console.log("Clown: " + (this instanceof ClownFish));
 
         if(!this.rendered) {
             this.renderEntity(this.spriteName);
@@ -165,7 +165,7 @@ class Fish extends Entity {
 
 class CommonFish extends Fish {
     constructor() {
-        super(0, HEIGHT, 20 * 1.75, 18 * 1.75, 1.8, "commonFish", 4);
+        super(0, HEIGHT, 20, 18, 1.8, "commonFish", 4);
     }
 
     update(delta) {
@@ -175,7 +175,27 @@ class CommonFish extends Fish {
 
 class YellowFish extends Fish {
     constructor() {
-        super(0, HEIGHT, 19 * 1.75, 18 * 1.75, 2.2, "yellowFish", 5);
+        super(0, HEIGHT, 19, 18, 2.2, "yellowFish", 5);
+    }
+
+    update(delta) {
+        super.update(delta);
+    }
+}
+
+class ClownFish extends Fish {
+    constructor() {
+        super(0, HEIGHT, 29, 14, 2.5, "clownFish", 2);
+    }
+
+    update(delta) {
+        super.update(delta);
+    }
+}
+
+class AltClownFish extends Fish {
+    constructor() {
+        super(0, HEIGHT, 29, 14, 2.5, "altClownFish", 2);
     }
 
     update(delta) {
@@ -274,8 +294,10 @@ class HookLine extends Entity {
 // END PLAYER HOOK
 
 function startLoadingEntitySprites() {
-    PIXI.Assets.add('commonFish', 'assets/sprites/fish/common.webp');
-    PIXI.Assets.add('yellowFish', 'assets/sprites/fish/yellow.webp');
+    PIXI.Assets.add("commonFish", "assets/sprites/fish/common.webp");
+    PIXI.Assets.add("yellowFish", "assets/sprites/fish/yellow.webp");
+    PIXI.Assets.add("clownFish", "assets/sprites/fish/clown.webp");
+    PIXI.Assets.add("altClownFish", "assets/sprites/fish/alt-clown.webp");
 
-    PIXI.Assets.backgroundLoad(['commonFish', 'yellowFish']);
+    PIXI.Assets.backgroundLoad(["commonFish", "yellowFish", "clownFish", "altClownFish"]);
 }
