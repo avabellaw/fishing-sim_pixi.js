@@ -7,6 +7,8 @@ class Entity {
         this.height = height * SCALE;
 
         this.updates = 0;
+
+        this.rendered = false;
     }
 
     getSprite(spriteTexture) {
@@ -16,12 +18,12 @@ class Entity {
     addSprite(spriteLocation) {
         const texturePromise = PIXI.Assets.load(spriteLocation);
 
-        texturePromise.then((resolvedTexture) => { 
+        texturePromise.then((resolvedTexture) => {
             this.sprite = this.getSprite(resolvedTexture);
-    
+
             this.sprite.x = this.x;
             this.sprite.y = this.y;
-    
+
             this.sprite.width = this.width;
             this.sprite.height = this.height;
             app.stage.addChild(this.sprite);
@@ -48,6 +50,19 @@ class Entity {
             this.x + this.width > entity.x &&
             this.y < entity.y + entity.height &&
             this.y + this.height > entity.y;
+    }
+    
+    renderEntity(spriteName) {
+        PIXI.Assets.load(spriteName).then((texture) => {
+            this.sprite = this.getSprite(texture);
+
+            this.sprite.x = this.x;
+            this.sprite.y = 100;
+
+            this.sprite.width = this.width;
+            this.sprite.height = this.height;
+            app.stage.addChild(this.sprite);
+        });
     }
 
     removeEntity() {
@@ -101,19 +116,26 @@ class FishPointsText extends TextEntity {
 // FISH
 
 class Fish extends Entity {
-    constructor(x, y, width, height, speed, spriteLocation, points) {
+    constructor(x, y, width, height, speed, spriteName, points) {
         super(x, y, width, height);
 
         this.x = this.getRandomX();
-
-        this.addSprite(spriteLocation);
+        this.spriteName = spriteName;
+        // this.addSprite(spriteLocation);
 
         this.points = points;
         this.speed = speed;
+
+        console.log("Fish created")
     }
 
     update(delta) {
         super.update(delta);
+
+        if(!this.rendered) {
+            this.renderEntity(this.spriteName);
+            this.rendered = true;
+        }
 
         if (this.isCollidingWith(playerHook)) {
             this.caughtFish();
@@ -143,7 +165,7 @@ class Fish extends Entity {
 
 class CommonFish extends Fish {
     constructor() {
-        super(0, HEIGHT, 20 * 1.75, 18 * 1.75, 1.8, "assets/sprites/fish/common.webp", 4);
+        super(0, HEIGHT, 20 * 1.75, 18 * 1.75, 1.8, "commonFish", 4);
     }
 
     update(delta) {
@@ -153,7 +175,7 @@ class CommonFish extends Fish {
 
 class YellowFish extends Fish {
     constructor() {
-        super(0, HEIGHT, 19 * 1.75, 18 * 1.75, 2.2, "assets/sprites/fish/yellow.webp", 5);
+        super(0, HEIGHT, 19 * 1.75, 18 * 1.75, 2.2, "yellowFish", 5);
     }
 
     update(delta) {
@@ -250,3 +272,10 @@ class HookLine extends Entity {
 }
 
 // END PLAYER HOOK
+
+function startLoadingEntitySprites() {
+    PIXI.Assets.add('commonFish', 'assets/sprites/fish/common.webp');
+    PIXI.Assets.add('yellowFish', 'assets/sprites/fish/yellow.webp');
+
+    PIXI.Assets.backgroundLoad(['commonFish', 'yellowFish']);
+}

@@ -37,7 +37,7 @@ let gameObject = {
         }
     },
     init: function () {
-        for (let i = 0; i < 100; i++) {
+        for (let i = 0; i < 3; i++) {
             this.entitiesStack.push(getRandomFish());
         }
     },
@@ -54,12 +54,11 @@ const app = new PIXI.Application({
     antialias: false
 });
 
+startLoadingEntitySprites();
+
 init();
 
-const FISH_TYPES = { commonFish: new CommonFish(), yellowFish: new YellowFish() };
-
 addPlayerHook();
-
 
 const CANVAS = document.getElementsByTagName("canvas")[0];
 
