@@ -59,9 +59,9 @@ class Button extends MenuItem {
 
         this.draw();
 
-        CANVAS.onpointermove = (event) => {
+        CANVAS.onpointerup = (event) => {
             if (this.isWithinBounds(event.clientX, event.clientY)) {
-                console.log("Mouse entered button");
+                this.clicked();
             }
         }
     }
@@ -71,6 +71,10 @@ class Button extends MenuItem {
         this.graphics.beginFill(this.bgColour);
         this.graphics.drawRect(0, 0, this.width, this.height);
         this.graphics.endFill();
+    }
+
+    clicked() {
+        startGame();
     }
 }
 

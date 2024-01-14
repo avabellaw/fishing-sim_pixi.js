@@ -69,6 +69,8 @@ const startMenu = new StartMenu();
 app.stage.addChild(startMenu.container);
 
 function startGame(){
+    app.stage.removeChild(startMenu.container);
+
     initGame();
     
     addEventListeners();
