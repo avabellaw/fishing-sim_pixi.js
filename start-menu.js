@@ -2,7 +2,7 @@ class StartMenu {
     constructor() {
         this.container = new PIXI.Container();
 
-        new Button(50, 50, WIDTH - 100, 60, "Start Game", this);
+        new Button(50, 50, WIDTH - 100, 60, "Start Game", 0x3333ff, 0xffffff, this);
     }
 }
 
@@ -39,8 +39,10 @@ class MenuItem {
 }
 
 class Button extends MenuItem {
-    constructor(x, y, width, height, text, startMenu) {
+    constructor(x, y, width, height, text, bgColour, outlineColour, startMenu) {
         super(x, y, width, height, startMenu);
+        this.bgColour = bgColour;
+        this.outlineColour = outlineColour;
 
         this.y = getCenterY(this.height);
        
@@ -51,8 +53,8 @@ class Button extends MenuItem {
     }
 
     draw() {
-        this.graphics.lineStyle(2, 0xFEEB77, 1);
-        this.graphics.beginFill(0x650A5A);
+        this.graphics.lineStyle(2, this.outlineColour, 1);
+        this.graphics.beginFill(this.bgColour);
         this.graphics.drawRect(0, 0, this.width, this.height);
         this.graphics.endFill();
     }
