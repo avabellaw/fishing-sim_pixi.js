@@ -104,11 +104,9 @@ class TextEntity extends Entity {
 /**
  * Created when a fish is caught to display points gained.
  */
-class FishPointsText extends TextEntity {
-    constructor(x, y, text) {
-        super(x, y, text, new PIXI.TextStyle({
-            fill: "#ffffff"
-        }));
+class PointsText extends TextEntity {
+    constructor(x, y, text, style) {
+        super(x, y, text, style);
 
         this.START_Y = this.y;
         this.speed = 3;
@@ -125,6 +123,26 @@ class FishPointsText extends TextEntity {
         if (this.y < 0 || this.sprite.alpha <= 0) {
             this.removeEntity();
         }
+    }
+}
+
+class FishPointsText extends PointsText {
+    constructor(x, y, points) {
+        super(x, y, points, new PIXI.TextStyle({
+            fill: "#ffffff",
+            fontSize: 25,
+            fontWeight: "bold"
+        }))
+    }
+}
+
+class LostPointsText extends PointsText {
+    constructor(x, y, points) {
+        super(x, y, points, new PIXI.TextStyle({
+            fill: "#ff0000",
+            fontSize: 25,
+            fontWeight: "bold"
+        }))
     }
 }
 
@@ -158,7 +176,6 @@ class PassingObject extends Entity {
     }
 
     caughtObject() {
-        entities.push(new FishPointsText(this.x, this.y, this.points));
         this.removeEntity();
         gameObject.addToScore(this.points)
     }
@@ -175,8 +192,13 @@ class Fish extends PassingObject {
         super.update(delta);
 
         if (this.isCollidingWith(playerHook)) {
-            this.caughtObject();
+            this.caughtFish();
         }
+    }
+
+    caughtFish() {
+        entities.push(new FishPointsText(this.x, this.y, this.points));
+        this.caughtObject();
     }
 }
 
@@ -241,8 +263,12 @@ class Boot extends PassingObject {
         super.update(delta);
 
         if (this.isCollidingWith(playerHook)) {
-            this.caughtObject();
+            this.caught();
         }
+    }
+    caught() {
+        entities.push(new LostPointsText(this.x, this.y, this.points));
+        this.caughtObject();
     }
 }
 
