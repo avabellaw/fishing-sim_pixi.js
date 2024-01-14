@@ -18,13 +18,13 @@ window.devicePixelRatio = 1;
 
 // Change cursor style.
 const CURSOR = {
-    normal: () =>{
+    normal: () => {
         document.body.style.cursor = "default";
     },
-    gamePointer: () =>{
+    gamePointer: () => {
         document.body.style.cursor = 'url("assets/sprites/cursor.webp"),auto';
     },
-    handPointer: () =>{
+    handPointer: () => {
         document.body.style.cursor = 'pointer';
     }
 }
@@ -68,28 +68,26 @@ const app = new PIXI.Application({
     width: WIDTH,
     height: HEIGHT,
     transparent: false,
-    antialias: false
+    antialias: false,
 });
 
 document.getElementById("game-container").appendChild(app.view);
 
 startLoadingEntitySprites();
 
-const CANVAS = document.getElementsByTagName("canvas")[0];
-
 const startMenu = new StartMenu();
 
 app.stage.addChild(startMenu.container);
 
-function startGame(){
+function startGame() {
     app.stage.removeChild(startMenu.container);
 
     CURSOR.gamePointer();
 
     initGame();
-    
+
     addEventListeners();
-    
+
     isRunning = true;
 }
 
@@ -133,19 +131,25 @@ function initGame() {
  * Adds event listeners to the canvas.
  */
 function addEventListeners() {
-    // Mouse events
-    CANVAS.onpointermove = function (event) {
-        playerHook.desiredX = event.offsetX - playerHook.width / 2;
-        playerHook.desiredY = event.offsetY - playerHook.height / 2;
-    };
 
-    CANVAS.onmouseenter = function (event) {
+    // Enable interactivity
+    app.stage.eventMode = 'static';
+
+    // Make sure the whole canvas area is interactive
+    app.stage.hitArea = app.screen;
+
+    app.stage.addEventListener('pointermove', (e) => {
+        playerHook.desiredX = e.global.x - playerHook.width / 2;
+        playerHook.desiredY = e.global.y - playerHook.height / 2;
+    });
+
+    app.stage.addEventListener('pointerenter', (e) => {
         CURSOR.gamePointer();
-    };
+    });
 
-    CANVAS.onmouseleave = function (event) {
+    app.stage.addEventListener('pointerleave', (e) => {
         CURSOR.normal();
-    };
+    });
 }
 
 /**
@@ -165,19 +169,19 @@ function addPlayerHook() {
 function getRandomFish() {
     let randomNum = Math.floor(Math.random() * 100)
 
-    if(randomNum < 50) {
-        if(randomNum < 30) {
+    if (randomNum < 50) {
+        if (randomNum < 30) {
             return new CommonFish();
         } else {
             return new YellowFish();
         }
-    } else if(randomNum < 80)  {
-        if(randomNum < 65) {
+    } else if (randomNum < 80) {
+        if (randomNum < 65) {
             return new ClownFish();
         } else {
             return new AltClownFish();
         }
-    } else if(randomNum < 90) {
+    } else if (randomNum < 90) {
         return new SlowFish();
     } else {
         return new Boot();
