@@ -59,22 +59,22 @@ class Button extends MenuItem {
 }
 
 class MenuItemText {
-    constructor(menuItem, text){
+    constructor(menuItem, text) {
         this.txt = new PIXI.Text(text, new PIXI.TextStyle({ fill: 0xFFFFFF }))
         this.menuItem = menuItem;
         menuItem.itemContainer.addChild(this.txt);
     }
 
-    centerText(){
+    centerText() {
         this.centerHorizontally();
-        this.centerVertically();        
+        this.centerVertically();
     }
 
-    centerHorizontally(){
+    centerHorizontally() {
         this.txt.x = this.menuItem.width / 2 - this.txt.width / 2;
     }
 
-    centerVertically(){
+    centerVertically() {
         this.txt.y = this.menuItem.height / 2 - this.txt.height / 2;
     }
 }
