@@ -16,6 +16,19 @@ PIXI.settings.ROUND_PIXELS = false;
 PIXI.settings.RESOLUTION = 1;
 window.devicePixelRatio = 1;
 
+// Change cursor style.
+const CURSOR = {
+    normal: () =>{
+        document.body.style.cursor = "default";
+    },
+    gamePointer: () =>{
+        document.body.style.cursor = 'url("assets/sprites/cursor.webp"),auto';
+    },
+    handPointer: () =>{
+        document.body.style.cursor = 'pointer';
+    }
+}
+
 let background;
 
 let gameObject = {
@@ -71,6 +84,8 @@ app.stage.addChild(startMenu.container);
 function startGame(){
     app.stage.removeChild(startMenu.container);
 
+    CURSOR.gamePointer();
+
     initGame();
     
     addEventListeners();
@@ -125,11 +140,11 @@ function addEventListeners() {
     };
 
     CANVAS.onmouseenter = function (event) {
-        document.body.style.cursor = 'url("assets/sprites/cursor.webp"),auto';
+        CURSOR.gamePointer();
     };
 
     CANVAS.onmouseleave = function (event) {
-        document.body.style.cursor = "default";
+        CURSOR.normal();
     };
 }
 
