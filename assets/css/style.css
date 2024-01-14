@@ -36,4 +36,16 @@ canvas {
     background-color: white;
     padding: 0.4rem;
     box-sizing: border-box;
+    font-size: 1.5em;
+    font-weight: bold;
+    display: flex;
+}
+
+#score-container > p {
+    display: inline-block;
+    margin: 0;
+}
+
+#score-container > p:first-child {
+    margin-right: auto;
 }

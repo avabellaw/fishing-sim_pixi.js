@@ -33,6 +33,7 @@ let background;
 
 let gameObject = {
     score: 0,
+    streak: 0,
     entitiesStack: [],
     bounds: {
         minX: 12 * BACKGROUND_SCALE,
@@ -60,7 +61,7 @@ let gameObject = {
     },
     addToScore: function (points) {
         this.score += points;
-        document.getElementById("score").innerText = this.score;
+        document.getElementById("score").innerText = Math.round(this.score);
     }
 }
 

@@ -159,6 +159,10 @@ class PassingObject extends Entity {
         this.speed = speed;
     }
 
+    getPoints(){
+        return parseInt(this.points + ((gameObject.streak + 1) * 0.05));
+    }
+
     update(delta) {
         super.update(delta);
 
@@ -177,7 +181,12 @@ class PassingObject extends Entity {
 
     caughtObject() {
         this.removeEntity();
-        gameObject.addToScore(this.points)
+        if (this instanceof Boot)
+            gameObject.streak = 0;
+
+        document.getElementById("streak").textContent = gameObject.streak++;
+
+        gameObject.addToScore(this.getPoints());
     }
 }
 
@@ -197,8 +206,8 @@ class Fish extends PassingObject {
     }
 
     caughtFish() {
-        entities.push(new FishPointsText(this.x, this.y, this.points));
         this.caughtObject();
+        entities.push(new FishPointsText(this.x, this.y, this.getPoints()));
     }
 }
 
