@@ -52,6 +52,7 @@ class Entity {
             this.y + this.height > entity.y;
     }
     
+    // Use already rendered sprite or force it to render.
     renderEntity(spriteName) {
         PIXI.Assets.load(spriteName).then((texture) => {
             this.sprite = this.getSprite(texture);
@@ -73,6 +74,9 @@ class Entity {
     }
 }
 
+/**
+ * A static text entity that is rendered on the screen.
+ */
 class TextEntity extends Entity {
     constructor(x, y, text, style) {
         super(x, y, 0, 0);
@@ -89,6 +93,9 @@ class TextEntity extends Entity {
     }
 }
 
+/**
+ * Created when a fish is caught to display points gained.
+ */
 class FishPointsText extends TextEntity {
     constructor(x, y, text) {
         super(x, y, text, new PIXI.TextStyle({
@@ -130,6 +137,7 @@ class Fish extends Entity {
         super.update(delta);
 
         if(!this.rendered) {
+            // As soon as the entity is being used, render it.
             this.renderEntity(this.spriteName);
             this.rendered = true;
         }
@@ -300,9 +308,14 @@ class HookLine extends Entity {
 
 // END PLAYER HOOK
 
+/**
+ * Begins loading sprites in the background.
+ */
 function startLoadingEntitySprites() {
+    // Default fish sprite location.
     const fishAssetsLocation = "assets/sprites/fish/";
 
+    // Key: Sprite name to access it, Value: Sprite filename
     const fishSpriteData = {
         "commonFish":"common",
         "yellowFish":"yellow",
@@ -311,9 +324,11 @@ function startLoadingEntitySprites() {
         "slowFish":"slow"
     };
 
+    // Add all fish sprites to the loader from the object.
     for(const [key, filename] of Object.entries(fishSpriteData)) {
         PIXI.Assets.add(key, fishAssetsLocation + filename + ".webp");
     }
     
+    // Load all sprites in the background using the key/sprite name.
     PIXI.Assets.backgroundLoad(Object.keys(fishSpriteData));
 }
