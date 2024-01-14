@@ -2,7 +2,8 @@ class StartMenu {
     constructor() {
         this.container = new PIXI.Container();
 
-        new Button(50, 50, WIDTH - 100, 60, "Start Game", 0x3333ff, 0xffffff, this);
+        let btn = new Button(50, 50, WIDTH - 100, 60, "Start Game", 0x3333ff, 0xffffff, this);
+        btn.moveTo(50, getCenterY(btn.height));
     }
 }
 
@@ -21,14 +22,14 @@ class MenuItem {
     }
 
     moveTo(x, y) {
-        this.x = x;
-        this.y = y;
+        this.itemContainer.x = x;
+        this.itemContainer.y = y;
         this.redraw();
     }
 
     move(x, y) {
-        this.x += x;
-        this.y += y;
+        this.itemContainer.x += x;
+        this.itemContainer.y += y;
         this.redraw();
     }
 
