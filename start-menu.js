@@ -2,7 +2,7 @@ class StartMenu {
     constructor() {
         this.container = new PIXI.Container();
 
-        let btn = new Button(50, 50, WIDTH - 100, 60, "Start Game", this);
+        new Button(50, 50, WIDTH - 100, 60, "Start Game", this);
     }
 }
 
@@ -44,7 +44,7 @@ class Button extends MenuItem {
 
         this.y = getCenterY(this.height);
        
-        let buttonText = new MenuItemText(this, "Start Game");
+        let buttonText = new MenuItemText(this, text);
         buttonText.centerText();
 
         this.draw();
