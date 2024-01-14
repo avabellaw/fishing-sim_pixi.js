@@ -80,8 +80,9 @@ class Button extends MenuItem {
         this.graphics.endFill();
     }
 
-    clicked() {
+    clicked(e) {
         startGame();
+        playerHook.followPointer(e);
     }
 }
 

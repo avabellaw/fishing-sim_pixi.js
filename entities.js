@@ -323,6 +323,11 @@ class PlayerHook extends Entity {
             }
         }
     }
+
+    followPointer(e) {
+        this.desiredX = e.global.x - this.width / 2;
+        this.desiredY = e.global.y - this.height / 2;
+    }
 }
 
 

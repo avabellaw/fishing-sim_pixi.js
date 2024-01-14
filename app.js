@@ -139,8 +139,7 @@ function addEventListeners() {
     app.stage.hitArea = app.screen;
 
     app.stage.addEventListener('pointermove', (e) => {
-        playerHook.desiredX = e.global.x - playerHook.width / 2;
-        playerHook.desiredY = e.global.y - playerHook.height / 2;
+        playerHook.followPointer(e);
     });
 
     app.stage.addEventListener('pointerenter', (e) => {
