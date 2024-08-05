@@ -1,4 +1,11 @@
 class Entity {
+    /**
+     * Creates a new entity.
+     * @param {number} x The x position of the entity.
+     * @param {number} y The y position of the entity.
+     * @param {number} width The width of the entity.
+     * @param {number} height The height of the entity.
+     */
     constructor(x, y, width, height) {
         this.x = x;
         this.y = y;
@@ -58,7 +65,7 @@ class Entity {
             this.sprite = this.getSprite(texture);
 
             this.sprite.x = this.x;
-            this.sprite.y = 100;
+            this.sprite.y = this.y;
 
             this.sprite.width = this.width;
             this.sprite.height = this.height;
@@ -90,10 +97,13 @@ class TextEntity extends Entity {
         super(x, y, 0, 0);
         this.text = text;
         this.sprite = new PIXI.Text(text, style);
-        app.stage.addChild(this.sprite);
 
         this.sprite.x = this.x;
         this.sprite.y = this.y;
+    }
+
+    getSprite() {
+        return this.sprite;
     }
 
     update(delta) {
@@ -110,6 +120,8 @@ class PointsText extends TextEntity {
 
         this.START_Y = this.y;
         this.speed = 3;
+
+        app.stage.addChild(this.sprite);
     }
 
     update() {
@@ -146,6 +158,74 @@ class LostPointsText extends PointsText {
     }
 }
 
+// BACKGROUND
+
+class Background extends Entity {
+    constructor() {
+        super(0, 0, WIDTH, HEIGHT);
+        this.backgroundContainer = new PIXI.Container();
+        const bgTexture = PIXI.Texture.from('assets/sprites/background.webp');
+
+        this.background = new PIXI.TilingSprite(
+            bgTexture,
+            app.screen.width,
+            app.screen.height,
+        );
+
+        this.background.tileScale.set(BACKGROUND_SCALE * SCALE);
+
+        this.backgroundContainer.addChild(this.background);
+
+        this.bottomImage = null;
+
+        app.stage.addChild(this.backgroundContainer);
+    }
+
+    update(delta) {
+        super.update(delta);
+
+        if (gameObject.isEndGame) {
+            if (this.bottomImage.y > HEIGHT - this.bottomImage.height) {
+                this.bottomImage.y -= 1;
+                this.bottomImage.update(delta);
+            } else {
+                if (!gameObject.showScoreScreen) this.showScoreScreen();
+            }
+        }
+        if (!gameObject.showScoreScreen) this.background.tilePosition.y -= 1;
+    }
+
+    endGame() {
+        PIXI.Assets.load("bottom").then((texture) => {
+            this.bottomImage = new Entity(0, this.backgroundContainer.height, 200 * 2, 40 * 2);
+
+            this.bottomImage.sprite = this.getSprite(texture);
+            this.bottomImage.sprite.width = this.bottomImage.width;
+            this.bottomImage.sprite.height = this.bottomImage.height;
+            this.bottomImage.updateSprite();
+
+            this.backgroundContainer.addChild(this.bottomImage.sprite);
+
+            gameObject.isEndGame = true;
+        });
+    }
+
+    showScoreScreen() {
+        let gameOver = new TextEntity(0, 0, "Game Over", new PIXI.TextStyle({
+            fill: "#ffffff",
+            fontSize: 50,
+            fontWeight: "bold"
+        }));
+        
+        let gameOverSprite = gameOver.getSprite();
+        gameOverSprite.y = this.backgroundContainer.height / 2 - gameOverSprite.height;
+        gameOverSprite.x = this.backgroundContainer.width / 2 - gameOverSprite.width / 2;
+        app.stage.addChild(gameOverSprite);
+        gameObject.showScoreScreen = true;
+    }
+
+}
+
 // PASSING OBJECT
 
 class PassingObject extends Entity {
@@ -159,7 +239,7 @@ class PassingObject extends Entity {
         this.speed = speed;
     }
 
-    getPoints(){
+    getPoints() {
         return parseInt(this.points + ((gameObject.streak + 1) * 0.05));
     }
 
@@ -382,6 +462,7 @@ class HookLine extends Entity {
 function startLoadingEntitySprites() {
     // Default fish sprite location.
     const fishAssetsLocation = "assets/sprites/fish/";
+    const sceneAssetsLocation = "assets/sprites/";
 
     // Key: Sprite name to access it, Value: Sprite filename
     const fishSpriteData = {
@@ -393,11 +474,19 @@ function startLoadingEntitySprites() {
         "boot": "boot"
     };
 
+    const sceneSpriteData = {
+        "bottom": "bottom"
+    }
+
     // Add all fish sprites to the loader from the object.
     for (const [key, filename] of Object.entries(fishSpriteData)) {
         PIXI.Assets.add(key, fishAssetsLocation + filename + ".webp");
     }
 
+    for (const [key, filename] of Object.entries(sceneSpriteData)) {
+        PIXI.Assets.add(key, sceneAssetsLocation + filename + ".webp");
+    }
+
     // Load all sprites in the background using the key/sprite name.
-    PIXI.Assets.backgroundLoad(Object.keys(fishSpriteData));
+    PIXI.Assets.backgroundLoad(Object.keys(fishSpriteData), Object.keys(sceneSpriteData));
 }

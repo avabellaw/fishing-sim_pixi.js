@@ -6,7 +6,7 @@ const SCALE = getScale();
 const WIDTH = width * SCALE;
 const HEIGHT = height * SCALE;
 
-const BACKGROUND_SCALE = 2 * SCALE;
+const BACKGROUND_SCALE = 2;
 
 let playerHook;
 let isRunning = false;
@@ -29,20 +29,20 @@ const CURSOR = {
     }
 }
 
-let background;
-
 let gameObject = {
     score: 0,
     streak: 0,
     entitiesStack: [],
     bounds: {
-        minX: 12 * BACKGROUND_SCALE,
-        maxX: WIDTH - 12 * BACKGROUND_SCALE,
+        minX: 12 * BACKGROUND_SCALE * SCALE,
+        maxX: WIDTH - 12 * BACKGROUND_SCALE * SCALE,
         minY: 0,
         maxY: HEIGHT
     },
     spawnObjectCoolOff: 10,
     spawnCounter: 0,
+    isEndGame: false,
+    showScoreScreen: false,
     update: function (delta, updates) {
         entities.forEach(entity => {
             entity.update(delta);
@@ -52,16 +52,21 @@ let gameObject = {
             this.spawnCounter++ >= this.spawnObjectCoolOff + (this.entitiesStack.length * 0.3)) {
             addEntity(this.entitiesStack.pop());
             this.spawnCounter = 0;
+        } else if (this.entitiesStack.length === 0 && !this.isEndGame && this.numberOfPassingObjects() === 0) {
+            this.background.endGame();
         }
     },
     init: function () {
-        for (let i = 0; i < 200; i++) {
+        for (let i = 0; i < 10; i++) {
             this.entitiesStack.push(getRandomFish());
         }
     },
     addToScore: function (points) {
         this.score += points;
         document.getElementById("score").innerText = Math.round(this.score);
+    },
+    numberOfPassingObjects: function () {
+        return entities.filter(entity => entity instanceof PassingObject).length;
     }
 }
 
@@ -96,18 +101,8 @@ function startGame() {
  * Initializes the game display and the game object.
  */
 function initGame() {
-    const bgTexture = PIXI.Texture.from('assets/sprites/background.webp');
-
-    const background = new PIXI.TilingSprite(
-        bgTexture,
-        app.screen.width,
-        app.screen.height,
-    );
-
-    background.tileScale.set(BACKGROUND_SCALE);
-
-    app.stage.addChild(background);
-
+    gameObject.background = new Background();
+    entities.push(gameObject.background);
     gameObject.init();
 
     let updates = 0;
@@ -116,8 +111,6 @@ function initGame() {
             gameObject.update(delta, updates);
 
             updates += delta;
-
-            background.tilePosition.y -= 1;
 
             if (updates >= 60) {
                 updates = 0;
