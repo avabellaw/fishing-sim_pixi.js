@@ -32,6 +32,10 @@ const CURSOR = {
 let gameObject = {
     score: 0,
     streak: 0,
+    longestStreak: 0,
+    fishCaught: 0,
+    fishMissed: 0,
+    bootsHit: 0,
     entitiesStack: [],
     bounds: {
         minX: 12 * BACKGROUND_SCALE * SCALE,

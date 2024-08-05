@@ -217,24 +217,40 @@ class Background extends Entity {
             fontWeight: "bold"
         }));
 
-        let scoreDetailsText = `Score: ${gameObject.score}`;
+        // PIXI doesn't handle new lines correctly unless I manually add them like this.
+        let scoreDetailsText = `Fish caught: ${gameObject.fishCaught}\nLongest streak: ${gameObject.longestStreak}\nFish missed: ${gameObject.fishMissed}\nBoots hit: ${gameObject.bootsHit}`;
 
-        let scoreDetails = new TextEntity(0, 0, scoreDetailsText, new PIXI.TextStyle({
+        let score = new TextEntity(0, 0, "Score: " + gameObject.score, new PIXI.TextStyle({
             fill: "#ffffff",
-            fontSize: 20
+            fontSize: 30,
+            fontWeight: "bold",
+        }));
+
+        let scoreDetails = new TextEntity(0, 0, scoreDetailsText.trim(), new PIXI.TextStyle({
+            fill: "#ffffff",
+            fontSize: 20,
+            align: "center",
         }));
         
+        let scoreSprite = score.getSprite();
         let scoreDetailsSprite = scoreDetails.getSprite();
         let gameOverSprite = gameOver.getSprite();
 
         gameOverSprite.y = this.backgroundContainer.height / 3 - gameOverSprite.height;
-        gameOverSprite.x = this.backgroundContainer.width / 2 - gameOverSprite.width / 2;
+        this.centerSpriteX(gameOverSprite);
 
-        scoreDetailsSprite.y = gameOverSprite.y + gameOverSprite.height + 20;
-        scoreDetailsSprite.x = this.backgroundContainer.width / 2 - scoreDetailsSprite.width / 2;
+        scoreSprite.y = gameOverSprite.y + gameOverSprite.height + 5;
+        this.centerSpriteX(scoreSprite);
 
-        app.stage.addChild(gameOverSprite, scoreDetailsSprite);
+        scoreDetailsSprite.y = scoreSprite.y + scoreSprite.height + 15;
+        this.centerSpriteX(scoreDetailsSprite);
+
+        app.stage.addChild(gameOverSprite, scoreSprite, scoreDetailsSprite);
         gameObject.showScoreScreen = true;
+    }
+
+    centerSpriteX(sprite) {
+        sprite.x = this.backgroundContainer.width / 2 - sprite.width / 2;
     }
 
 }
@@ -253,7 +269,7 @@ class PassingObject extends Entity {
     }
 
     getPoints() {
-        return parseInt(this.points + ((gameObject.streak + 1) * 0.05));
+        return parseInt(this.points + gameObject.streak * 0.05);
     }
 
     update(delta) {
@@ -268,16 +284,30 @@ class PassingObject extends Entity {
         this.y -= this.speed;
 
         if (this.y < -this.height) {
+            if (this instanceof Fish) {
+                gameObject.fishMissed++;
+            }
             this.removeEntity();
         }
     }
 
     caughtObject() {
         this.removeEntity();
-        if (this instanceof Boot)
+        if (this instanceof Boot) {
+            gameObject.bootsHit++;
             gameObject.streak = 0;
+        }
 
-        document.getElementById("streak").textContent = gameObject.streak++;
+        if (this instanceof Fish) {
+            gameObject.fishCaught++;
+        }
+
+
+        if(++gameObject.streak > gameObject.longestStreak) {
+            gameObject.longestStreak = gameObject.streak;
+        }
+
+        document.getElementById("streak").textContent = gameObject.streak;
 
         gameObject.addToScore(this.getPoints());
     }
