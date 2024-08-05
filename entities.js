@@ -216,11 +216,24 @@ class Background extends Entity {
             fontSize: 50,
             fontWeight: "bold"
         }));
+
+        let scoreDetailsText = `Score: ${gameObject.score}`;
+
+        let scoreDetails = new TextEntity(0, 0, scoreDetailsText, new PIXI.TextStyle({
+            fill: "#ffffff",
+            fontSize: 20
+        }));
         
+        let scoreDetailsSprite = scoreDetails.getSprite();
         let gameOverSprite = gameOver.getSprite();
-        gameOverSprite.y = this.backgroundContainer.height / 2 - gameOverSprite.height;
+
+        gameOverSprite.y = this.backgroundContainer.height / 3 - gameOverSprite.height;
         gameOverSprite.x = this.backgroundContainer.width / 2 - gameOverSprite.width / 2;
-        app.stage.addChild(gameOverSprite);
+
+        scoreDetailsSprite.y = gameOverSprite.y + gameOverSprite.height + 20;
+        scoreDetailsSprite.x = this.backgroundContainer.width / 2 - scoreDetailsSprite.width / 2;
+
+        app.stage.addChild(gameOverSprite, scoreDetailsSprite);
         gameObject.showScoreScreen = true;
     }
 
