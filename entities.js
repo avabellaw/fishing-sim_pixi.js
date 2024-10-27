@@ -176,6 +176,10 @@ class Background extends Entity {
 
         this.backgroundContainer.addChild(this.background);
 
+        // Set up a filter to adjust the brightness of the background later.
+        this.filter = new PIXI.ColorMatrixFilter();
+        this.background.filters = [this.filter];
+
         this.bottomImage = null;
 
         app.stage.addChild(this.backgroundContainer);
@@ -185,9 +189,15 @@ class Background extends Entity {
         super.update(delta);
 
         if (gameObject.isEndGame) {
+            // Move the bottom bank image up until it's fully visible.
             if (this.bottomImage.y > HEIGHT - this.bottomImage.height) {
                 this.bottomImage.y -= 1;
                 this.bottomImage.update(delta);
+
+                let finalBrightness = 0.6;
+
+                // Reduce background brightness as the bottom bank image and score is revealed.
+                this.filter.brightness(1 - (finalBrightness / this.bottomImage.height) *  (HEIGHT - this.bottomImage.y));
             } else {
                 if (!gameObject.showScoreScreen) this.showScoreScreen();
             }
