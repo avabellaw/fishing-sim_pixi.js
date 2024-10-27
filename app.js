@@ -38,8 +38,8 @@ let gameObject = {
     bootsHit: 0,
     entitiesStack: [],
     bounds: {
-        minX: 12 * BACKGROUND_SCALE * SCALE,
-        maxX: WIDTH - 12 * BACKGROUND_SCALE * SCALE,
+        minX: 0,
+        maxX: WIDTH,
         minY: 0,
         maxY: HEIGHT
     },

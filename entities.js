@@ -197,7 +197,7 @@ class Background extends Entity {
 
     endGame() {
         PIXI.Assets.load("bottom").then((texture) => {
-            this.bottomImage = new Entity(0, this.backgroundContainer.height, 200 * 2, 40 * 2);
+            this.bottomImage = new Entity(0, this.backgroundContainer.height, 200 * BACKGROUND_SCALE, 100 * BACKGROUND_SCALE);
 
             this.bottomImage.sprite = this.getSprite(texture);
             this.bottomImage.sprite.width = this.bottomImage.width;
@@ -236,10 +236,10 @@ class Background extends Entity {
         let scoreDetailsSprite = scoreDetails.getSprite();
         let gameOverSprite = gameOver.getSprite();
 
-        gameOverSprite.y = this.backgroundContainer.height / 3 - gameOverSprite.height;
+        gameOverSprite.y = this.backgroundContainer.height / 4 - gameOverSprite.height;
         this.centerSpriteX(gameOverSprite);
 
-        scoreSprite.y = gameOverSprite.y + gameOverSprite.height + 5;
+        scoreSprite.y = gameOverSprite.y + gameOverSprite.height + 20;
         this.centerSpriteX(scoreSprite);
 
         scoreDetailsSprite.y = scoreSprite.y + scoreSprite.height + 15;
