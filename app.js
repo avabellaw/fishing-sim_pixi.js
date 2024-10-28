@@ -30,6 +30,8 @@ const CURSOR = {
 }
 
 let gameObject = {
+    // Container for all entity sprites
+    stage: new PIXI.Container(),
     score: 0,
     streak: 0,
     longestStreak: 0,
@@ -61,6 +63,7 @@ let gameObject = {
         }
     },
     init: function () {
+        app.stage.addChild(this.stage);
         for (let i = 0; i < 10; i++) {
             this.entitiesStack.push(getRandomFish());
         }

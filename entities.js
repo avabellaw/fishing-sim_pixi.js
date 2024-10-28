@@ -33,7 +33,7 @@ class Entity {
 
             this.sprite.width = this.width;
             this.sprite.height = this.height;
-            app.stage.addChild(this.sprite);
+            gameObject.stage.addChild(this.sprite);
         });
     }
 
@@ -69,13 +69,13 @@ class Entity {
 
             this.sprite.width = this.width;
             this.sprite.height = this.height;
-            app.stage.addChild(this.sprite);
+            gameObject.stage.addChild(this.sprite);
         });
     }
 
     removeEntity() {
         if (this.sprite != undefined) {
-            app.stage.removeChild(this.sprite);
+            gameObject.stage.removeChild(this.sprite);
             this.sprite.destroy();
             this.sprite = undefined;
         }
@@ -122,7 +122,7 @@ class PointsText extends TextEntity {
         this.START_Y = this.y;
         this.speed = 3;
 
-        app.stage.addChild(this.sprite);
+        gameObject.stage.addChild(this.sprite);
     }
 
     update() {
@@ -183,7 +183,7 @@ class Background extends Entity {
 
         this.bottomImage = null;
 
-        app.stage.addChild(this.backgroundContainer);
+        gameObject.stage.addChild(this.backgroundContainer);
     }
 
     update(delta) {
@@ -274,7 +274,7 @@ class Background extends Entity {
         scoreDetailsSprite.x = scoreScreenContainer.width / 2 - scoreDetailsSprite.width / 2;       
 
         // Add scoreScreen container to the stage
-        app.stage.addChild(scoreScreenContainer);
+        gameObject.stage.addChild(scoreScreenContainer);
         gameObject.showScoreScreen = true;
     }
 
