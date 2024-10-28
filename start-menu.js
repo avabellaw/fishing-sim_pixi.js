@@ -63,15 +63,6 @@ class MenuItem {
         this.graphics.clear();
         this.draw();
     }
-
-    isWithinBounds(x, y) {
-        console.log(x);
-        console.log("must be greater than " + this.itemContainer.x + " less than " + this.width);
-        if (x >= this.itemContainer.x && x <= this.itemContainer.x + this.width && y >= this.itemContainer.y && y <= this.itemContainer.y + this.height)
-            return true;
-        else
-            return false;
-    }
 }
 
 class Button extends MenuItem {

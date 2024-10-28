@@ -30,7 +30,7 @@ const CURSOR = {
 }
 
 let gameObject = {
-    // Container for all entity sprites
+    // PIXI container for all entity sprites
     stage: new PIXI.Container(),
     score: 0,
     streak: 0,
@@ -78,18 +78,18 @@ let gameObject = {
 }
 
 const app = new PIXI.Application({
-    width: WIDTH,
-    height: HEIGHT,
-    transparent: false,
-    antialias: false,
-});
+            width: WIDTH,
+            height: HEIGHT,
+            transparent: false,
+            antialias: false,
+        });
 
 document.getElementById("game-container").appendChild(app.view);
-
-startLoadingEntitySprites();
+        
+        startLoadingEntitySprites();
 
 const startMenu = new StartMenu();
-
+        
 app.stage.addChild(startMenu.container);
 
 function startGame() {
