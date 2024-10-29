@@ -1,6 +1,7 @@
 import { Button, Label } from "./menu-items.js";
 import { WIDTH } from '../../constants.js';
 import { getCenterY } from '../../util/helpers.js';
+import { gameObject } from "../../game-object.js";
 
 class StartMenu {
     constructor(startGame, screens) {
@@ -16,7 +17,7 @@ class StartMenu {
         let startButton = new Button(0, 0, WIDTH - 100, 60, "Start Game", 0x3333ff, 0xaaaaaa);
         startButton.addClickHandler((e) => {
             startGame();
-            screens["game"].followPointer(e);
+            gameObject.playerHook.followPointer(e);
         });
 
         let label = new Label(0, 0, WIDTH - 100, 20, "Fishing Sim");
