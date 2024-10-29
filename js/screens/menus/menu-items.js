@@ -1,31 +1,3 @@
-class StartMenu {
-    constructor() {
-        this.container = new PIXI.Container();
-
-        let bgTexture = PIXI.Texture.from("assets/images/background.webp");
-        bgTexture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-
-        let bg = new PIXI.Sprite(bgTexture);
-        bg.x = -600;
-        this.container.addChild(bg);
-
-        let btn = new Button(0, 0, WIDTH - 100, 60, "Start Game", 0x3333ff, 0xaaaaaa);
-        let label = new Label(0, 0, WIDTH - 100, 20, "Fishing Sim");
-        btn.itemContainer.y = 100;
-        label.itemContainer.y = 0;
-
-        btn.makeInteractive();
-
-        let mainContainer = new PIXI.Container();
-        mainContainer.addChild(label.itemContainer);
-        mainContainer.addChild(btn.itemContainer);
-        mainContainer.x = 50;
-        mainContainer.y = getCenterY(mainContainer.height);
-
-        this.container.addChild(mainContainer);
-    }
-}
-
 class MenuItem {
     constructor(x, y, width, height) {
         this.itemContainer = new PIXI.Container();
@@ -85,9 +57,8 @@ class Button extends MenuItem {
         this.graphics.endFill();
     }
 
-    clicked(e) {
-        startGame();
-        playerHook.followPointer(e);
+    addClickHandler(handler) {
+        this.clicked = handler;
     }
 
     hoveredOver() {
@@ -128,6 +99,4 @@ class MenuItemText {
     }
 }
 
-function getCenterY(height) {
-    return HEIGHT / 2 - height / 2;
-}
+export { MenuItem, Button, Label };

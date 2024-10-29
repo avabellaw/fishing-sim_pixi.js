@@ -1,3 +1,8 @@
+import { WIDTH, HEIGHT, SCALE, BACKGROUND_SCALE } from "../constants.js";
+import { gameObject } from "../game-object.js";
+
+const entities = gameObject.entities;
+
 class Entity {
     /**
      * Creates a new entity.
@@ -20,21 +25,6 @@ class Entity {
 
     getSprite(spriteTexture) {
         return PIXI.Sprite.from(spriteTexture);
-    }
-
-    addSprite(spriteLocation) {
-        const texturePromise = PIXI.Assets.load(spriteLocation);
-
-        texturePromise.then((resolvedTexture) => {
-            this.sprite = this.getSprite(resolvedTexture);
-
-            this.sprite.x = this.x;
-            this.sprite.y = this.y;
-
-            this.sprite.width = this.width;
-            this.sprite.height = this.height;
-            gameObject.stage.addChild(this.sprite);
-        });
     }
 
     updateSprite() {
@@ -60,7 +50,7 @@ class Entity {
     }
 
     // Use already rendered sprite or force it to render.
-    renderEntity(spriteName) {
+    renderEntity(spriteName, container) {
         PIXI.Assets.load(spriteName).then((texture) => {
             this.sprite = this.getSprite(texture);
 
@@ -69,17 +59,17 @@ class Entity {
 
             this.sprite.width = this.width;
             this.sprite.height = this.height;
-            gameObject.stage.addChild(this.sprite);
+            container.addChild(this.sprite);
         });
     }
 
     removeEntity() {
         if (this.sprite != undefined) {
-            gameObject.stage.removeChild(this.sprite);
+            gameObject.gameScreen.container.removeChild(this.sprite);
             this.sprite.destroy();
             this.sprite = undefined;
         }
-        entities.splice(entities.indexOf(this), 1);
+        gameObject.entities.splice(gameObject.entities.indexOf(this), 1);
     }
 
     getMiddleX() {
@@ -87,7 +77,7 @@ class Entity {
     }
 
     getRandomX() {
-        return Math.floor(Math.random() * (gameObject.bounds.maxX - this.width - gameObject.bounds.minX) + gameObject.bounds.minX);
+        return Math.floor(Math.random() * (WIDTH - this.width));
     }
 }
 
@@ -122,7 +112,7 @@ class PointsText extends TextEntity {
         this.START_Y = this.y;
         this.speed = 3;
 
-        gameObject.stage.addChild(this.sprite);
+        gameObject.addSpriteToContainer(this.sprite);
     }
 
     update() {
@@ -162,15 +152,16 @@ class LostPointsText extends PointsText {
 // BACKGROUND
 
 class Background extends Entity {
-    constructor() {
+    constructor(gameObject) {
         super(0, 0, WIDTH, HEIGHT);
+        this.gameObject = gameObject;
         this.backgroundContainer = new PIXI.Container();
         const bgTexture = PIXI.Texture.from('assets/sprites/background.webp');
 
         this.background = new PIXI.TilingSprite(
             bgTexture,
-            app.screen.width,
-            app.screen.height,
+            WIDTH,
+            HEIGHT,
         );
 
         this.background.tileScale.set(BACKGROUND_SCALE * SCALE);
@@ -182,14 +173,12 @@ class Background extends Entity {
         this.background.filters = [this.filter];
 
         this.bottomImage = null;
-
-        gameObject.stage.addChild(this.backgroundContainer);
     }
 
     update(delta) {
         super.update(delta);
 
-        if (gameObject.isEndGame) {
+        if (this.gameObject.isEndGame) {
             // Move the bottom bank image up until it's fully visible.
             if (this.bottomImage.y > HEIGHT - this.bottomImage.height) {
                 this.bottomImage.y -= 1;
@@ -203,7 +192,7 @@ class Background extends Entity {
                 if (!gameObject.showScoreScreen) this.showScoreScreen();
             }
         }
-        if (!gameObject.showScoreScreen) this.background.tilePosition.y -= 1;
+        if (!this.gameObject.showScoreScreen) this.background.tilePosition.y -= 1;
     }
 
     endGame() {
@@ -304,12 +293,6 @@ class PassingObject extends Entity {
     update(delta) {
         super.update(delta);
 
-        if (!this.rendered) {
-            // As soon as the entity is being used, render it.
-            this.renderEntity(this.spriteName);
-            this.rendered = true;
-        }
-
         this.y -= this.speed;
 
         if (this.y < -this.height) {
@@ -352,14 +335,20 @@ class Fish extends PassingObject {
     update(delta) {
         super.update(delta);
 
-        if (this.isCollidingWith(playerHook)) {
+        if (!this.rendered) {
+            // As soon as the entity is being used, render it.
+            this.renderEntity(this.spriteName, gameObject.gameScreen.container);
+            this.rendered = true;
+        }
+
+        if (gameObject.isEntityCollidingWithHook(this)) {
             this.caughtFish();
         }
     }
 
     caughtFish() {
         this.caughtObject();
-        entities.push(new FishPointsText(this.x, this.y, this.getPoints()));
+        gameObject.entities.push(new FishPointsText(this.x, this.y, this.getPoints()));
     }
 }
 
@@ -423,7 +412,7 @@ class Boot extends PassingObject {
     update(delta) {
         super.update(delta);
 
-        if (this.isCollidingWith(playerHook)) {
+        if (gameObject.isEntityCollidingWithHook(this)) {
             this.caught();
         }
     }
@@ -435,119 +424,4 @@ class Boot extends PassingObject {
 
 // END FISH
 
-// PLAYER HOOK
-
-class PlayerHook extends Entity {
-    constructor(speed) {
-        super(WIDTH / 2, 0, 18 * 0.75, 36 * 0.75);
-
-        this.desiredX = this.x;
-        this.desiredY = this.y;
-        this.hookLine = new HookLine(this, 2);
-        this.speed = speed;
-
-        // Adjust x for playerHook width
-        this.x -= this.width / 2;
-        this.addSprite("assets/sprites/hook.webp");
-    }
-
-    update() {
-        super.update();
-        this.hookLine.update(this.x, this.y);
-
-        if (this.y < this.desiredY - this.speed / 2) {
-            this.y = Math.min(this.y + this.speed, gameObject.bounds.maxY - this.height);
-        } else if (this.y > this.desiredY + this.speed / 2) {
-            this.y = Math.max(this.y - this.speed, gameObject.bounds.minY);
-        }
-        
-        if (this.x < this.desiredX - this.speed / 2) {
-            this.x = Math.min(this.x + this.speed, gameObject.bounds.maxX - this.width);
-        } else if (this.x > this.desiredX + this.speed / 2) {
-            this.x = Math.max(this.x - this.speed, gameObject.bounds.minX);
-        }
-    }
-
-    followPointer(e) {
-        this.desiredX = e.global.x - this.width / 2;
-        this.desiredY = e.global.y - this.height / 2;
-    }
-}
-
-
-/**
- * The fishing line that connects to the player hook.
- */
-class HookLine extends Entity {
-    constructor(playerHook, lineThickness) {
-        super(WIDTH / 2 - lineThickness / 2, 0);
-
-        this.playerHook = playerHook;
-        this.lineThickness = lineThickness;
-
-        this.START_X = this.x;
-        this.START_Y = this.y;
-
-        this.lineGraphics = new PIXI.Graphics();
-        this.lineGraphics.lineStyle(lineThickness, 0xffd900, 1);
-        this.lineGraphics.moveTo(this.x, this.y);
-        this.lineGraphics.lineTo(this.x, this.y);
-
-        app.stage.addChild(this.lineGraphics);
-    }
-
-    update(x, y) {
-        super.update();
-
-        const newX = x + this.playerHook.width / 2;
-        const newY = y;
-
-        // If moved, update the line
-        if (this.x !== newX || this.y !== newY) {
-            this.x = newX;
-            this.y = newY;
-
-            this.lineGraphics.clear();
-            this.lineGraphics.lineStyle(this.lineThickness, 0x000000, 1);
-            this.lineGraphics.moveTo(this.START_X, this.START_Y);
-            this.lineGraphics.lineTo(this.x, this.y);
-        }
-    }
-}
-
-// END PLAYER HOOK
-
-/**
- * Begins loading sprites in the background.
- */
-function startLoadingEntitySprites() {
-    // Default fish sprite location.
-    const fishAssetsLocation = "assets/sprites/fish/";
-    const sceneAssetsLocation = "assets/sprites/";
-
-    // Key: Sprite name to access it, Value: Sprite filename
-    const fishSpriteData = {
-        "commonFish": "common",
-        "yellowFish": "yellow",
-        "clownFish": "clown",
-        "altClownFish": "alt-clown",
-        "slowFish": "slow",
-        "boot": "boot"
-    };
-
-    const sceneSpriteData = {
-        "bottom": "bottom"
-    }
-
-    // Add all fish sprites to the loader from the object.
-    for (const [key, filename] of Object.entries(fishSpriteData)) {
-        PIXI.Assets.add(key, fishAssetsLocation + filename + ".webp");
-    }
-
-    for (const [key, filename] of Object.entries(sceneSpriteData)) {
-        PIXI.Assets.add(key, sceneAssetsLocation + filename + ".webp");
-    }
-
-    // Load all sprites in the background using the key/sprite name.
-    PIXI.Assets.backgroundLoad(Object.keys(fishSpriteData), Object.keys(sceneSpriteData));
-}
+export { Entity, TextEntity, PointsText, FishPointsText, LostPointsText, Background, PassingObject, Fish, CommonFish, YellowFish, ClownFish, AltClownFish, SlowFish, Boot};
