@@ -1,10 +1,20 @@
+// Set width and height of the game prior to scaling
 let width = 400, height = 500;
-const SCALE = getScale();
-const WIDTH = width * SCALE;
-const HEIGHT = height * SCALE;
 
-const BACKGROUND_SCALE = 2;
+// Export the scale used to scale with the viewport
+export const SCALE = getScale();
 
+// Export the scaled width and height of the game
+export const WIDTH = width * SCALE;
+export const HEIGHT = height * SCALE;
+
+// Export background scale
+export const BACKGROUND_SCALE = 2;
+
+/**
+ * Scales based on viewport width and height.
+ * @returns {number} The scale to use for the game canvas.
+ */
 function getScale() {
     // Margin for both sides on smaller screens
     let gutter = 10;
@@ -25,5 +35,3 @@ function getScale() {
 
     return scale
 }
-
-export { WIDTH, HEIGHT, SCALE, BACKGROUND_SCALE };
