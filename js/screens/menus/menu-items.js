@@ -15,8 +15,9 @@ class MenuItem {
         this.itemContainer.eventMode = 'static';
         this.itemContainer.cursor = 'pointer';
         this.itemContainer.on("pointerup", this.clicked);
-        this.itemContainer.on("pointerover", this.hoveredOver);
-        this.itemContainer.on("pointerout", this.hoveredOut);
+        // Using .bind(this) to ensure that the correct context is used when calling the function
+        this.itemContainer.on("pointerover", this.hoveredOver.bind(this));
+        this.itemContainer.on("pointerout", this.hoveredOut.bind(this));
     }
 
     moveTo(x, y) {
@@ -70,6 +71,24 @@ class Button extends MenuItem {
     }
 }
 
+class SecondaryButton extends Button {
+    constructor(x, y, menuWidth, text) {
+        super(x, y, menuWidth - 120, 50, text, 0x222222, 0xffffff);
+    }
+
+    hoveredOver() {
+        super.hoveredOver();
+        this.bgColour = 0x000000;
+        super.redraw();
+    }
+
+    hoveredOut() {
+        super.hoveredOut();
+        this.bgColour = 0x222222;
+        this.redraw();
+    }
+}
+
 class Label extends MenuItem {
     constructor(x, y, width, height, text) {
         super(x, y, width, height);
@@ -99,4 +118,4 @@ class MenuItemText {
     }
 }
 
-export { MenuItem, Button, Label };
+export { Button, Label, SecondaryButton };

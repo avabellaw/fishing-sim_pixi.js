@@ -16,9 +16,13 @@ class Menu {
      * @param {MenuItem} menuItems Menu items to add to the menu
      * @returns The container that holds the menu items
      */
-    addMenuItems(menuItems) {
+    addMenuItems(menuItems, alignment = Menu.align.CENTER) {
         let mainContainer = new PIXI.Container();
+        let maxWidth = Math.max(...menuItems.map((menuItem) => menuItem.width));
         menuItems.forEach((menuItem) => {
+            if (alignment === Menu.align.CENTER) {
+                menuItem.itemContainer.x = (maxWidth - menuItem.width) / 2;
+            }
              mainContainer.addChild(menuItem.itemContainer)
         });
         this.container.addChild(mainContainer);
