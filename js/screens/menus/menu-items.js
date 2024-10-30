@@ -92,16 +92,16 @@ class SecondaryButton extends Button {
 }
 
 class Label extends MenuItem {
-    constructor(x, y, width, height, text) {
+    constructor(x, y, width, height, text, fontSize = 26, fill = 0xFFFFFF, fontFamily = "Arial") {
         super(x, y, width, height);
-        new MenuItemText(this, text).centerText();
+        new MenuItemText(this, text, new PIXI.TextStyle({ fill: fill, fontSize: fontSize, fontFamily: fontFamily })).centerText();
     }
 
 }
 
 class MenuItemText {
-    constructor(menuItem, text) {
-        this.txt = new PIXI.Text(text, new PIXI.TextStyle({ fill: 0xFFFFFF }))
+    constructor(menuItem, text, pixiTextStyle = new PIXI.TextStyle({ fill: 0xFFFFFF })) {
+        this.txt = new PIXI.Text(text, pixiTextStyle)
         this.menuItem = menuItem;
         menuItem.itemContainer.addChild(this.txt);
     }

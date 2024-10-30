@@ -12,7 +12,7 @@ class StartMenu extends Menu {
         bg.x = -600;
         this.container.addChild(bg);
 
-        let label = new Label(0, 0, this.width - 100, 20, "Fishing Sim");
+        let label = new Label(0, 0, this.width - 100, 20, "Fishing Sim", 36, 0xffffff, "Tahoma");
 
         let startButton = new Button(0, 100, this.width - 100, 60, "Start Game", 0x3333ff, 0xaaaaaa);
         startButton.addClickHandler((e) => {
@@ -25,24 +25,25 @@ class StartMenu extends Menu {
             screenManager.showLeaderboard();
         });
 
-        startButton.makeInteractive();
-        leaderboardButton.makeInteractive();
-
-        let mainContainer = this.addMenuItems([startButton, leaderboardButton, label]);
-        this.centerElement(mainContainer);
-
-        this.container.addChild(mainContainer);
+        
         
         let cookie = document.cookie;
         if (cookie){
-            let cookieArray = cookie.split("=");
-            let coins = parseInt(cookieArray[1]);
-            let coinsLabel = new Label(15, 15, 100, 20, "Coins: " + coins);
-            this.container.addChild(coinsLabel.itemContainer);
+            let coins = parseInt(cookie.split("=")[1]);
             gameObject.coins = coins;
         } else {
             gameObject.coins = 0;
         }
+
+        let coinsLabel = new Label(3, label.height + 30, 75, 20, "Coins: " + gameObject.coins, 20);
+
+        startButton.makeInteractive();
+        leaderboardButton.makeInteractive();
+
+        let mainContainer = this.addMenuItems([startButton, leaderboardButton, coinsLabel, label]);
+        this.centerElement(mainContainer);
+
+        this.container.addChild(mainContainer);
     }
 }
 
