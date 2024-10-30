@@ -14,12 +14,6 @@ class Fish extends PassingObject {
     update(delta) {
         super.update(delta);
 
-        if (!this.rendered) {
-            // As soon as the entity is being used, render it.
-            this.renderEntity(this.spriteName, gameObject.gameScreen.container);
-            this.rendered = true;
-        }
-
         if (gameObject.isEntityCollidingWithHook(this)) {
             this.caughtFish();
         }
@@ -27,23 +21,16 @@ class Fish extends PassingObject {
 
     handleObjectOffScreen() {
         super.handleObjectOffScreen();
-        
+
         // Fish is off screen -> it was missed -> increment missed fish counter.
         gameObject.fishMissed++;
     }
 
     caughtFish() {
         this.caughtObject();
-        
-        if (this instanceof Boot) {
-            gameObject.bootsHit++;
-            gameObject.streak = 0;
-        }
 
-        if (this instanceof Fish) {
-            gameObject.fishCaught++;
-        }
-        
+        gameObject.fishCaught++;
+
         gameObject.entities.push(new FishPointsText(this.x, this.y, this.getPoints()));
     }
 }

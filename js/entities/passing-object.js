@@ -1,6 +1,7 @@
 import Entity from "./entity.js";
 
 import gameObject from "../game-object.js";
+import { Boot } from "./fish.js";
 
 class PassingObject extends Entity {
     constructor(x, y, width, height, speed, spriteName, points) {
@@ -22,6 +23,12 @@ class PassingObject extends Entity {
 
         this.y -= this.speed;
 
+        if (!this.rendered) {
+            // As soon as the entity is being used, render it.
+            this.renderEntity(this.spriteName, gameObject.gameScreen.container);
+            this.rendered = true;
+        }
+
         if (this.y < -this.height) {
             this.handleObjectOffScreen();
         }
@@ -39,6 +46,11 @@ class PassingObject extends Entity {
 
         if(++gameObject.streak > gameObject.longestStreak) {
             gameObject.longestStreak = gameObject.streak;
+        }
+
+        if (this instanceof Boot) {
+            gameObject.bootsHit++;
+            gameObject.streak = 0;
         }
 
         document.getElementById("streak").textContent = gameObject.streak;
