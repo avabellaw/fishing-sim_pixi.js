@@ -2,7 +2,7 @@ import PassingObject from "./passing-object.js";
 
 import { HEIGHT } from "../constants.js";
 import gameObject from "../game-object.js";
-import { FishPointsText, LostPointsText } from "./text-entities.js";
+import { FishPointsText, LostPointsText } from "./text-entity.js";
 
 const entities = gameObject.entities;
 

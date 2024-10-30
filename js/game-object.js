@@ -33,7 +33,9 @@ let gameObject = {
             this.addEntity(this.entitiesStack.pop());
             this.spawnCounter = 0;
         } else if (this.entitiesStack.length === 0 && !this.isEndGame && this.numberOfPassingObjects() === 0) {
-            this.background.endGame();
+            if (!this.isEndGame) {
+                this.background.endGame();
+            }
         }
     },
     addToScore: function (points) {
