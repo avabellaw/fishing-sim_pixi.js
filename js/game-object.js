@@ -1,4 +1,4 @@
-import { getRandomFish } from "./util/helpers.js";
+import { Fish } from "./entities/fish.js";
 import PassingObject from "./entities/passing-object.js";
 
 let gameObject = {
@@ -20,7 +20,7 @@ let gameObject = {
     },
     init: function () {
         for (let i = 0; i < 10; i++) {
-            this.entitiesStack.push(getRandomFish());
+            this.entitiesStack.push(Fish.getRandomFish());
         }
     },
     update: function (delta) {
