@@ -22,7 +22,7 @@ class StartMenu extends Menu {
 
         let leaderboardButton = new SecondaryButton(0, 120 + startButton.height, this.width, "Leaderboard");
         leaderboardButton.addClickHandler((e) => {
-            console.log("Leaderboard clicked");
+            screenManager.showLeaderboard();
         });
 
         startButton.makeInteractive();

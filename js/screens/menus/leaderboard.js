@@ -1,6 +1,9 @@
+import Menu from "./menu.js";
+import { SecondaryButton, Label } from "./menu-items.js";
+
 class Leaderboard extends Menu {
-    constructor(screenWidth, screenHeight) {
-        super(screenWidth, screenHeight);
+    constructor(screenManager) {
+        super(screenManager);
         let bgTexture = PIXI.Texture.from("assets/images/background.webp");
         bgTexture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
 
@@ -12,7 +15,7 @@ class Leaderboard extends Menu {
 
         let backButton = new SecondaryButton(0, 100, this.width, "Back");
         backButton.addClickHandler((e) => {
-            gameObject.startMenu();
+            screenManager.showStartMenu();
         });
 
         backButton.makeInteractive();

@@ -1,6 +1,7 @@
 import { StartMenu } from "./screens/menus/start-menu.js";
 import { startLoadingEntitySprites } from "./util/assets.js";
 import { GameScreen } from "./screens/game-screen.js";
+import Leaderboard from "./screens/menus/leaderboard.js";
 import { WIDTH, HEIGHT } from "./constants.js";
 
 PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
@@ -23,6 +24,7 @@ class ScreenManager {
         this.height = height;
         this.currentScreen = new StartMenu(this);
         app.stage.addChild(this.currentScreen.container);
+        this.menus = {"start": this.currentScreen};
     }
 
     addTicker(updateMethod) {
@@ -37,6 +39,21 @@ class ScreenManager {
 
     startGame() {
         this.switchScreen(new GameScreen(this));
+    }
+
+    showLeaderboard() {
+        // Use already loaded leaderboard if it exists
+        if (!this.menus["leaderboard"]) {
+            this.menus["leaderboard"] = new Leaderboard(this);
+        }
+        this.switchScreen(this.menus["leaderboard"]);
+    }
+
+    showStartMenu() {
+        if (!this.menus["start"]) {
+            this.menus["start"] = new StartMenu(this);
+        }
+        this.switchScreen(this.menus["start"]);
     }
 }
 
