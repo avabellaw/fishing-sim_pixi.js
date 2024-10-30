@@ -1,8 +1,11 @@
-class Menu {
-    constructor(width, height) {
+import Screen from '../screen.js';
+
+class Menu extends Screen {
+    constructor(screenManager) {
+        super(screenManager);
         this.container = new PIXI.Container();
-        this.width = width;
-        this.height = height;
+        this.width = screenManager.width;
+        this.height = screenManager.height;
     }
 
     static align = {

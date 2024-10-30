@@ -2,12 +2,13 @@ import Background from '../entities/background.js';
 import { CURSOR } from '../util/helpers.js';
 import PlayerHook from '../entities/player-hook.js';
 import gameObject from '../game-object.js';
+import Screen from './screen.js';
 
 let isRunning = false;
 
-class GameScreen {
-    constructor(app) {
-        this.app = app;
+class GameScreen extends Screen {
+    constructor(screenManager) {
+        super(screenManager);
         // PIXI container for all entity sprites
         this.container = new PIXI.Container();
         this.isRunning = false;
@@ -15,8 +16,8 @@ class GameScreen {
         this.init();
 
         isRunning = true;
-        this.app.ticker.add(this.update.bind(this));
-        this.addEventListeners(app);
+        screenManager.addTicker(this.update.bind(this));
+        this.addEventListeners();
         this.init()
     }
 
@@ -57,23 +58,23 @@ class GameScreen {
     /**
      * Adds event listeners to the canvas.
      */
-    addEventListeners(app) {
+    addEventListeners() {
 
         // Enable interactivity
-        app.stage.eventMode = 'static';
+        this.container.eventMode = 'static';
 
         // Make sure the whole canvas area is interactive
-        app.stage.hitArea = app.screen;
+        this.container.hitArea = this.container.screen;
 
-        app.stage.addEventListener('pointermove', (e) => {
+        this.container.addEventListener('pointermove', (e) => {
             gameObject.playerHook.followPointer(e);
         });
 
-        app.stage.addEventListener('pointerenter', (e) => {
+        this.container.addEventListener('pointerenter', (e) => {
             CURSOR.gamePointer();
         });
 
-        app.stage.addEventListener('pointerleave', (e) => {
+        this.container.addEventListener('pointerleave', (e) => {
             CURSOR.normal();
         });
     }

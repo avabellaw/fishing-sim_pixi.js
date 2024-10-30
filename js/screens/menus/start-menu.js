@@ -3,8 +3,8 @@ import gameObject from "../../game-object.js";
 import Menu from "./menu.js";
 
 class StartMenu extends Menu {
-    constructor(screen) {
-        super(screen.width, screen.height);
+    constructor(screenManager) {
+        super(screenManager);
         let bgTexture = PIXI.Texture.from("assets/images/background.webp");
         bgTexture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
 
@@ -16,7 +16,7 @@ class StartMenu extends Menu {
 
         let startButton = new Button(0, 100, this.width - 100, 60, "Start Game", 0x3333ff, 0xaaaaaa);
         startButton.addClickHandler((e) => {
-            screen.startGame();
+            screenManager.startGame();
             gameObject.playerHook.followPointer(e);
         });
 

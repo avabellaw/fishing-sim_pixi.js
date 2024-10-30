@@ -17,12 +17,16 @@ const app = new PIXI.Application({
 
 document.getElementById("game-container").appendChild(app.view);
 
-class Screen {
+class ScreenManager {
     constructor(width, height) {
         this.width = width;
         this.height = height;
         this.currentScreen = new StartMenu(this);
         app.stage.addChild(this.currentScreen.container);
+    }
+
+    addTicker(updateMethod) {
+        app.ticker.add(updateMethod);
     }
 
     switchScreen(newScreen) {
@@ -32,10 +36,10 @@ class Screen {
     }
 
     startGame() {
-        this.switchScreen(new GameScreen(app));
+        this.switchScreen(new GameScreen(this));
     }
 }
 
 startLoadingEntitySprites();
 
-new Screen(WIDTH, HEIGHT);
+new ScreenManager(WIDTH, HEIGHT);
