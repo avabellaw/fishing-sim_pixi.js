@@ -4,18 +4,12 @@ import PlayerHook from '../entities/player-hook.js';
 import gameObject from '../game-object.js';
 import Screen from './screen.js';
 
-let isRunning = false;
 
 class GameScreen extends Screen {
     constructor(screenManager) {
         super(screenManager);
         // PIXI container for all entity sprites
         this.container = new PIXI.Container();
-        this.isRunning = false;
-
-        this.init();
-
-        isRunning = true;
         screenManager.addTicker(this.update.bind(this));
         this.addEventListeners();
         this.init()
@@ -66,17 +60,23 @@ class GameScreen extends Screen {
         // Make sure the whole canvas area is interactive
         this.container.hitArea = this.container.screen;
 
-        this.container.addEventListener('pointermove', (e) => {
+        this.pointerMoveHandler = (e) => {
             gameObject.playerHook.followPointer(e);
-        });
+        }
 
-        this.container.addEventListener('pointerenter', (e) => {
+        this.pointerEnterHandler = (e) => {
             CURSOR.gamePointer();
-        });
+        }
 
-        this.container.addEventListener('pointerleave', (e) => {
+        this.pointerLeaveHandler = (e) => {
             CURSOR.normal();
-        });
+        }
+
+        this.container.on('pointermove', this.pointerMoveHandler);
+
+        this.container.on('pointerenter', this.pointerEnterHandler);
+
+        this.container.on('pointerleave', this.pointerLeaveHandler);
     }
 }
 

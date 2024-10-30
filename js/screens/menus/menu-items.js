@@ -9,6 +9,7 @@ class MenuItem {
         this.height = height;
 
         this.itemContainer.addChild(this.graphics);
+        this.isInteractive = false;
     }
 
     makeInteractive() {
@@ -18,6 +19,7 @@ class MenuItem {
         // Using .bind(this) to ensure that the correct context is used when calling the function
         this.itemContainer.on("pointerover", this.hoveredOver.bind(this));
         this.itemContainer.on("pointerout", this.hoveredOut.bind(this));
+        this.isInteractive = true;
     }
 
     moveTo(x, y) {

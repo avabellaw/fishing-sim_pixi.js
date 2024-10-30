@@ -3,7 +3,6 @@ import Screen from '../screen.js';
 class Menu extends Screen {
     constructor(screenManager) {
         super(screenManager);
-        this.container = new PIXI.Container();
         this.width = screenManager.width;
         this.height = screenManager.height;
     }
