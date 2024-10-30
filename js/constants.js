@@ -11,6 +11,8 @@ export const HEIGHT = height * SCALE;
 // Export background scale
 export const BACKGROUND_SCALE = 2;
 
+export const DEBUG = true;
+
 /**
  * Scales based on viewport width and height.
  * @returns {number} The scale to use for the game canvas.

@@ -1,10 +1,12 @@
 import Screen from '../screen.js';
+import { DEBUG } from '../../constants.js';
 
 class Menu extends Screen {
     constructor(screenManager) {
         super(screenManager);
         this.width = screenManager.width;
         this.height = screenManager.height;
+        if (DEBUG) console.log("Menu created");
     }
 
     static align = {
