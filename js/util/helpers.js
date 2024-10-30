@@ -1,10 +1,4 @@
-import { HEIGHT } from '../constants.js';
 import { CommonFish, YellowFish, ClownFish, AltClownFish, SlowFish, Boot } from '../entities/fish.js';
-
-// Menu functions
-function getCenterY(height) {
-    return HEIGHT / 2 - height / 2;
-}
 
 // Change cursor style.
 const CURSOR = {
@@ -45,4 +39,4 @@ function getRandomFish() {
     }
 }
 
-export { getCenterY, CURSOR, getRandomFish };
+export { CURSOR, getRandomFish };

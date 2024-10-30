@@ -1,5 +1,5 @@
 import Background from '../entities/background.js';
-import { CURSOR, getRandomFish } from '../util/helpers.js';
+import { CURSOR } from '../util/helpers.js';
 import PlayerHook from '../entities/player-hook.js';
 import gameObject from '../game-object.js';
 

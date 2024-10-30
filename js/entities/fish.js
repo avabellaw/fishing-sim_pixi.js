@@ -4,8 +4,6 @@ import { HEIGHT } from "../constants.js";
 import gameObject from "../game-object.js";
 import { FishPointsText, LostPointsText } from "./text-entity.js";
 
-const entities = gameObject.entities;
-
 class Fish extends PassingObject {
     constructor(x, y, width, height, speed, spriteName, points) {
         super(x, y, width * 1.75, height * 1.75, speed * 1.70, spriteName, points);
@@ -100,7 +98,7 @@ class Boot extends PassingObject {
         }
     }
     caught() {
-        entities.push(new LostPointsText(this.x, this.y, this.points));
+        gameObject.entities.push(new LostPointsText(this.x, this.y, this.points));
         this.caughtObject();
     }
 }
