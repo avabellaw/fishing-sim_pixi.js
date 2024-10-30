@@ -49,7 +49,7 @@ class Background extends Entity {
 
     endGame() {
         PIXI.Assets.load("bottom").then(texture => {
-            this.bottomImage = new Entity(0, this.backgroundContainer.height, 200 * BACKGROUND_SCALE, 100 * BACKGROUND_SCALE);
+            this.bottomImage = new Entity(0, HEIGHT, 200 * BACKGROUND_SCALE, 100 * BACKGROUND_SCALE);
 
             this.bottomImage.sprite = this.getSprite(texture);
             this.bottomImage.sprite.width = this.bottomImage.width;
