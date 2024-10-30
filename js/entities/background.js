@@ -56,7 +56,8 @@ class Background extends Entity {
             this.bottomImage.sprite.height = this.bottomImage.height;
             this.bottomImage.updateSprite();
 
-            this.backgroundContainer.addChild(this.bottomImage.sprite);
+            // Add to main container so it's rendered above the hook.
+            this.gameObject.addSpriteToContainer(this.bottomImage.sprite);
         });
     }
 
