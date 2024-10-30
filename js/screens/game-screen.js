@@ -16,6 +16,8 @@ class GameScreen {
 
         isRunning = true;
         this.app.ticker.add(this.update.bind(this));
+        this.addEventListeners(app);
+        this.init()
     }
 
     update(delta) {

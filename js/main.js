@@ -17,18 +17,25 @@ const app = new PIXI.Application({
 
 document.getElementById("game-container").appendChild(app.view);
 
-let gameScreen;
+class Screen {
+    constructor(width, height) {
+        this.width = width;
+        this.height = height;
+        this.currentScreen = new StartMenu(this);
+        app.stage.addChild(this.currentScreen.container);
+    }
+
+    switchScreen(newScreen) {
+        app.stage.removeChild(this.currentScreen.container);
+        app.stage.addChild(newScreen.container);
+        this.currentScreen = newScreen;
+    }
+
+    startGame() {
+        this.switchScreen(new GameScreen(app));
+    }
+}
 
 startLoadingEntitySprites();
 
-function startGame() {
-    app.stage.removeChild(startMenu.container);
-    gameScreen = new GameScreen(app);
-    gameScreen.addEventListeners(app);
-    app.stage.addChild(gameScreen.container);
-    gameScreen.init()
-}
-
-const startMenu = new StartMenu(startGame, WIDTH, HEIGHT);
-
-app.stage.addChild(startMenu.container);
+new Screen(WIDTH, HEIGHT);
