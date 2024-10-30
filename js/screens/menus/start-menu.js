@@ -1,7 +1,7 @@
 import { Button, Label } from "./menu-items.js";
 import { WIDTH } from '../../constants.js';
 import { getCenterY } from '../../util/helpers.js';
-import { gameObject } from "../../game-object.js";
+import gameObject from "../../game-object.js";
 
 class StartMenu {
     constructor(startGame, screens) {

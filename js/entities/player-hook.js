@@ -1,4 +1,5 @@
-import { Entity } from "./entities.js";
+import Entity from "./entity.js";
+
 import { WIDTH, HEIGHT } from "../constants.js";
 
 class PlayerHook extends Entity {
@@ -81,4 +82,4 @@ class HookLine extends Entity {
     }
 }
 
-export { PlayerHook };
+export default PlayerHook;

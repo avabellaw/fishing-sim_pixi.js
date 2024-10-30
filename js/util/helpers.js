@@ -1,5 +1,5 @@
 import { HEIGHT } from '../constants.js';
-import { CommonFish, YellowFish, ClownFish, AltClownFish, SlowFish, Boot } from '../entities/entities.js';
+import { CommonFish, YellowFish, ClownFish, AltClownFish, SlowFish, Boot } from '../entities/fish.js';
 
 // Menu functions
 function getCenterY(height) {

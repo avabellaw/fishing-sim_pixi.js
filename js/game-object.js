@@ -1,5 +1,5 @@
 import { getRandomFish } from "./util/helpers.js";
-import { PassingObject } from "./entities/entities.js";
+import PassingObject from "./entities/passing-object.js";
 
 let gameObject = {
     entities: [],
@@ -59,4 +59,4 @@ let gameObject = {
     },
 }
 
-export { gameObject };
+export default gameObject;
