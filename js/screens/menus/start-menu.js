@@ -32,6 +32,17 @@ class StartMenu extends Menu {
         this.centerElement(mainContainer);
 
         this.container.addChild(mainContainer);
+        
+        let cookie = document.cookie;
+        if (cookie){
+            let cookieArray = cookie.split("=");
+            let coins = parseInt(cookieArray[1]);
+            let coinsLabel = new Label(15, 15, 100, 20, "Coins: " + coins);
+            this.container.addChild(coinsLabel.itemContainer);
+            gameObject.coins = coins;
+        } else {
+            gameObject.coins = 0;
+        }
     }
 }
 

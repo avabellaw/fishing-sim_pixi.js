@@ -34,9 +34,16 @@ let gameObject = {
             this.spawnCounter = 0;
         } else if (this.entitiesStack.length === 0 && !this.isEndGame && this.numberOfPassingObjects() === 0) {
             if (!this.isEndGame) {
-                this.background.endGame();
+                this.endGame();
             }
         }
+    },
+    endGame: function () {
+        let coins = Math.round(this.score / 10);
+        document.cookie = `coins=${coins + this.coins}; expires=Fri, 31 Dec 9999 23:59:59 GMT`;
+
+        this.background.endGame();
+        this.isEndGame = true;
     },
     addToScore: function (points) {
         this.score += points;

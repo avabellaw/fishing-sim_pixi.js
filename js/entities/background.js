@@ -57,8 +57,6 @@ class Background extends Entity {
             this.bottomImage.updateSprite();
 
             this.backgroundContainer.addChild(this.bottomImage.sprite);
-
-            this.gameObject.isEndGame = true;
         });
     }
 
