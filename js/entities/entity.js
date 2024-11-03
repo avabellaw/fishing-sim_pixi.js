@@ -1,5 +1,6 @@
 import { WIDTH, SCALE } from "../constants.js";
 import gameObject from "../game-object.js";
+import {DEBUG} from "../constants.js";
 
 class Entity {
     /**
@@ -31,12 +32,8 @@ class Entity {
     }
 
     update(delta) {
-        this.updates += delta;
-        if (this.sprite != undefined) {
+        if (this.sprite != undefined && (this.x !== this.sprite.x || this.y !== this.sprite.y)) {
             this.updateSprite();
-        }
-        if (this.updates >= 60) {
-            this.updates = 0;
         }
     }
 
@@ -48,7 +45,7 @@ class Entity {
     }
 
     // Use already rendered sprite or force it to render.
-    renderEntity(spriteName, container) {
+    renderEntity(spriteName) {
         PIXI.Assets.load(spriteName).then((texture) => {
             this.sprite = this.getSprite(texture);
 
@@ -57,7 +54,7 @@ class Entity {
 
             this.sprite.width = this.width;
             this.sprite.height = this.height;
-            container.addChild(this.sprite);
+            gameObject.addSpriteToContainer(this);
         });
     }
 

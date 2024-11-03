@@ -15,7 +15,7 @@ class PlayerHook extends Entity {
 
         // Adjust x for playerHook width
         this.x -= this.width / 2;
-        this.renderEntity("assets/sprites/hook.webp", this.container);
+        this.renderEntity("assets/sprites/hook.webp");
     }
 
     update() {

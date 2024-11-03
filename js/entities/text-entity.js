@@ -33,7 +33,7 @@ class PointsText extends TextEntity {
         this.START_Y = this.y;
         this.speed = 3;
 
-        gameObject.addSpriteToContainer(this.sprite);
+        gameObject.addSpriteToContainer(this);
     }
 
     update() {

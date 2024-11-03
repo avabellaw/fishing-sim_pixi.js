@@ -57,7 +57,7 @@ class Background extends Entity {
             this.bottomImage.updateSprite();
 
             // Add to main container so it's rendered above the hook.
-            this.gameObject.addSpriteToContainer(this.bottomImage.sprite);
+            this.gameObject.addSpriteToContainer(this.bottomImage);
         });
     }
 
@@ -114,7 +114,7 @@ class Background extends Entity {
         scoreDetailsSprite.x = scoreScreenContainer.width / 2 - scoreDetailsSprite.width / 2;
 
         // Add scoreScreen container to the stage
-        this.gameObject.addSpriteToContainer(scoreScreenContainer);
+        this.gameObject.addSpriteContainerToContainer(scoreScreenContainer);
         this.gameObject.showScoreScreen = true;
     }
 

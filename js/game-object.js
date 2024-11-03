@@ -1,5 +1,6 @@
 import { Fish } from "./entities/fish.js";
 import PassingObject from "./entities/passing-object.js";
+import { DEBUG } from "./constants.js";
 
 let gameObject = {
     entities: [],
@@ -63,9 +64,14 @@ let gameObject = {
      * Will render the sprite/container to the screen.
      * @param {*} sprite Sprite OR container to add to the main PIXI container
      */
-    addSpriteToContainer: function (sprite) {
-        this.gameScreen.addContainerToStage(sprite);
+    addSpriteToContainer: function (entity) {
+        if (DEBUG) console.log("Adding sprite to container: " + entity.constructor.name);
+        this.gameScreen.addToStage(entity.sprite);
     },
+    addSpriteContainerToContainer: function (container) {
+        if (DEBUG) console.log("Adding sprite container to main container");
+        this.gameScreen.addToStage(container);
+    }
 }
 
 export default gameObject;

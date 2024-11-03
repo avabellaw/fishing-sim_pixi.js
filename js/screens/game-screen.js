@@ -3,6 +3,7 @@ import { CURSOR } from '../util/helpers.js';
 import PlayerHook from '../entities/player-hook.js';
 import gameObject from '../game-object.js';
 import Screen from './screen.js';
+import { DEBUG } from '../constants.js';
 
 
 class GameScreen extends Screen {
@@ -10,16 +11,18 @@ class GameScreen extends Screen {
         super(screenManager);
         // PIXI container for all entity sprites
         this.container = new PIXI.Container();
-        screenManager.addTicker(this.update.bind(this));
         this.addEventListeners();
         this.init()
     }
 
     update(delta) {
         gameObject.update(delta);
+        this.updates += delta;
+
+        this.screenManager.render();
     }
 
-    addContainerToStage(container) {
+    addToStage(container) {
         this.container.addChild(container);
     }
 

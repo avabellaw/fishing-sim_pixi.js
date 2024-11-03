@@ -4,6 +4,10 @@ class Screen {
         // PIXI container for all entity sprites
         this.container = new PIXI.Container();
     }
+
+    update(delta) {
+        throw new Error("Method 'update()' called without implementation.");
+    }
 }
 
 export default Screen;
