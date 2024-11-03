@@ -10,7 +10,6 @@ class StartMenu extends Menu {
 
         let bg = new PIXI.Sprite(bgTexture);
         bg.x = -600;
-        this.container.addChild(bg);
 
         let label = new Label(0, 0, this.width - 100, 20, "Fishing Sim", 36, 0xffffff, "Tahoma");
 
@@ -20,12 +19,15 @@ class StartMenu extends Menu {
             gameObject.playerHook.followPointer(e);
         });
 
-        let leaderboardButton = new SecondaryButton(0, 120 + startButton.height, this.width, "Leaderboard");
+        let shopButton = new SecondaryButton(0, 120 + startButton.height, this.width, "Shop");
+        shopButton.addClickHandler((e) => {
+            screenManager.showShop();
+        });
+
+        let leaderboardButton = new SecondaryButton(0, 140 + startButton.height + shopButton.height, this.width, "Leaderboard");
         leaderboardButton.addClickHandler((e) => {
             screenManager.showLeaderboard();
         });
-
-        
         
         let cookie = document.cookie;
         if (cookie){
@@ -39,11 +41,12 @@ class StartMenu extends Menu {
 
         startButton.makeInteractive();
         leaderboardButton.makeInteractive();
+        shopButton.makeInteractive();
 
-        let mainContainer = this.addMenuItems([startButton, leaderboardButton, coinsLabel, label]);
+        let mainContainer = this.addMenuItems([startButton, shopButton, leaderboardButton, coinsLabel, label]);
         this.centerElement(mainContainer);
 
-        this.container.addChild(mainContainer);
+        this.container.addChild(bg, mainContainer);
     }
 }
 

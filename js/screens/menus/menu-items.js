@@ -102,6 +102,7 @@ class Label extends MenuItem {
 class MenuItemText {
     constructor(menuItem, text, pixiTextStyle = new PIXI.TextStyle({ fill: 0xFFFFFF })) {
         this.txt = new PIXI.Text(text, pixiTextStyle)
+        menuItem.text = this.txt;
         this.menuItem = menuItem;
         menuItem.itemContainer.addChild(this.txt);
     }

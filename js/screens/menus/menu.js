@@ -29,17 +29,25 @@ class Menu extends Screen {
             }
              mainContainer.addChild(menuItem.itemContainer)
         });
-        this.container.addChild(mainContainer);
 
         return mainContainer;
     }
 
     /**
-     * Centers a MenuItem or PIXI.container vertically.
+     * Centers a MenuItem or PIXI.container vertically or horizontally.
      */
     centerElement(element, horizontally = true, vertically = true) {
+        console.log(this.width);
         if (horizontally) element.x = this.width / 2 - element.width / 2;
         if (vertically) element.y = this.height / 2 - element.height / 2;
+    }
+
+    getBackgroundBoxGraphics(x, y, width, height, colour = 0x000000, alpha = 0.75) {
+        let box = new PIXI.Graphics();
+        box.beginFill(colour, alpha);
+        box.drawRect(x, y, width, height);
+        box.endFill();
+        return box;
     }
 }
 

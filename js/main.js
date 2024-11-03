@@ -4,6 +4,7 @@ import { GameScreen } from "./screens/game-screen.js";
 import Leaderboard from "./screens/menus/leaderboard.js";
 import { WIDTH, HEIGHT } from "./constants.js";
 import { DEBUG } from "./constants.js";
+import Shop from "./screens/menus/shop.js";
 
 PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
 PIXI.settings.ROUND_PIXELS = false;
@@ -30,8 +31,9 @@ class ScreenManager {
         stage.addChild(this.currentScreen.container);
         this.menus = {"start": this.currentScreen};
         this.renders = 0;
-        this.render();
         ticker.add(this.update.bind(this));
+
+        this.render();
     }
 
     update() {
@@ -80,6 +82,13 @@ class ScreenManager {
             this.menus["start"] = new StartMenu(this);
         }
         this.switchScreen(this.menus["start"]);
+    }
+
+    showShop() {
+        if (!this.menus["shop"]) {
+            this.menus["shop"] = new Shop(this);
+        }
+        this.switchScreen(this.menus["shop"]);
     }
 }
 
