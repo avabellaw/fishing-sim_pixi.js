@@ -11,7 +11,7 @@ export const HEIGHT = height * SCALE;
 // Export background scale
 export const BACKGROUND_SCALE = 2;
 
-export const DEBUG = true;
+export const DEBUG = false;
 
 export const NUMBER_OF_PASSING_OBJECTS = 50;
 
