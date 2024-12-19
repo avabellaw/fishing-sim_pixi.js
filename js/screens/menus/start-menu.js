@@ -5,11 +5,6 @@ import Menu from "./menu.js";
 class StartMenu extends Menu {
     constructor(screenManager) {
         super(screenManager);
-        let bgTexture = PIXI.Texture.from("assets/images/background.webp");
-        bgTexture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-
-        let bg = new PIXI.Sprite(bgTexture);
-        bg.x = -600;
 
         let label = new Label(0, 0, this.width - 100, 20, "Fishing Sim", 36, 0xffffff, "Tahoma");
 
@@ -28,9 +23,9 @@ class StartMenu extends Menu {
         leaderboardButton.addClickHandler((e) => {
             screenManager.showLeaderboard();
         });
-        
+
         let cookie = document.cookie;
-        if (cookie){
+        if (cookie) {
             let coins = parseInt(cookie.split("=")[1]);
             gameObject.coins = coins;
         } else {
@@ -45,8 +40,19 @@ class StartMenu extends Menu {
 
         let mainContainer = this.addMenuItems([startButton, shopButton, leaderboardButton, coinsLabel, label]);
         this.centerElement(mainContainer);
+        mainContainer.zIndex = 1;
+        this.container.addChild(mainContainer);
+    }
 
-        this.container.addChild(bg, mainContainer);
+    async loadBackgroundSprite() {
+        await PIXI.Assets.load("background").then(bgTexture => {
+            bgTexture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+
+            let bg = new PIXI.Sprite(bgTexture);
+            bg.zIndex = -1;
+            bg.x = -600;
+            this.container.addChild(bg);
+        });
     }
 }
 

@@ -4,7 +4,8 @@ import { SecondaryButton, Label } from "./menu-items.js";
 class Leaderboard extends Menu {
     constructor(screenManager) {
         super(screenManager);
-        let bgTexture = PIXI.Texture.from("assets/images/background.webp");
+        // Background has already been loaded by the start menu
+        let bgTexture = PIXI.Texture.from("background");
         bgTexture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
 
         let bg = new PIXI.Sprite(bgTexture);

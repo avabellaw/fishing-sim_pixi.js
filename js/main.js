@@ -19,21 +19,28 @@ const renderer = new PIXI.Renderer({
 });
 
 const stage = new PIXI.Container();
+stage.sortableChildren = true;
 const ticker = new PIXI.Ticker();
-
-document.getElementById("game-container").appendChild(renderer.view);
 
 class ScreenManager {
     constructor(width, height) {
         this.width = width;
         this.height = height;
         this.currentScreen = new StartMenu(this);
-        stage.addChild(this.currentScreen.container);
-        this.menus = {"start": this.currentScreen};
-        this.renders = 0;
-        ticker.add(this.update.bind(this));
+        this.currentScreen.loadBackgroundSprite().then(() => {
+            stage.addChild(this.currentScreen.container);
+            this.menus = {"start": this.currentScreen};
+            this.renders = 0;
+            ticker.add(this.update.bind(this));
+    
+            this.render();
 
-        this.render();
+            /* 
+                Add the renderer to the DOM.
+                (Now that the start menu has been loaded)
+            */
+            document.getElementById("game-container").appendChild(renderer.view);
+        });
     }
 
     update() {
@@ -93,5 +100,7 @@ class ScreenManager {
 }
 
 startLoadingEntitySprites();
+
+// Renderer is added to the DOM in screen manager constructor.
 
 new ScreenManager(WIDTH, HEIGHT);

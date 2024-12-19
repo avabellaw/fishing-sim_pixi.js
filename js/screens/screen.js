@@ -3,6 +3,7 @@ class Screen {
         this.screenManager = screenManager;
         // PIXI container for all entity sprites
         this.container = new PIXI.Container();
+        this.container.sortableChildren = true;
     }
 
     update(delta) {

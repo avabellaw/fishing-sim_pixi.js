@@ -5,6 +5,7 @@ function startLoadingEntitySprites() {
     // Default fish sprite location.
     const fishAssetsLocation = "../../assets/sprites/fish/";
     const sceneAssetsLocation = "../../assets/sprites/";
+    const imageAssetsLocation = "../../assets/images/";
 
     // Key: Sprite name to access it, Value: Sprite filename
     const fishSpriteData = {
@@ -21,13 +22,19 @@ function startLoadingEntitySprites() {
         "playerHook": "hook",
     }
 
+    const startMenuSprites = {
+        "background": "background"
+    }
+
     // Add all fish sprites to the loader from the object.
     addSpritesToLoader(fishSpriteData, fishAssetsLocation);
 
     addSpritesToLoader(sceneSpriteData, sceneAssetsLocation);
 
+    addSpritesToLoader(startMenuSprites, imageAssetsLocation);
+
     // Load all sprites in the background using the key/sprite name.
-    PIXI.Assets.backgroundLoad(Object.keys(fishSpriteData), Object.keys(sceneSpriteData));
+    PIXI.Assets.backgroundLoad(Object.keys(startMenuSprites), Object.keys(fishSpriteData), Object.keys(sceneSpriteData));
 }
 
 function addSpritesToLoader(spriteData, location){
