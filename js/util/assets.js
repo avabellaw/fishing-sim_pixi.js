@@ -17,20 +17,23 @@ function startLoadingEntitySprites() {
     };
 
     const sceneSpriteData = {
-        "bottom": "bottom"
+        "bottom": "bottom",
+        "playerHook": "hook",
     }
 
     // Add all fish sprites to the loader from the object.
-    for (const [key, filename] of Object.entries(fishSpriteData)) {
-        PIXI.Assets.add(key, fishAssetsLocation + filename + ".webp");
-    }
+    addSpritesToLoader(fishSpriteData, fishAssetsLocation);
 
-    for (const [key, filename] of Object.entries(sceneSpriteData)) {
-        PIXI.Assets.add(key, sceneAssetsLocation + filename + ".webp");
-    }
+    addSpritesToLoader(sceneSpriteData, sceneAssetsLocation);
 
     // Load all sprites in the background using the key/sprite name.
     PIXI.Assets.backgroundLoad(Object.keys(fishSpriteData), Object.keys(sceneSpriteData));
+}
+
+function addSpritesToLoader(spriteData, location){
+    for (const [key, filename] of Object.entries(spriteData)) {
+        PIXI.Assets.add(key, location + filename + ".webp");
+    }
 }
 
 export { startLoadingEntitySprites };
