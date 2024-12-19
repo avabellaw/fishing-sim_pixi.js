@@ -19,7 +19,7 @@ class Leaderboard extends Menu {
             screenManager.showStartMenu();
         });
 
-        backButton.makeInteractive();
+        backButton.makeInteractive(this);
 
         let mainContainer = this.addMenuItems([backButton, label]);
         this.centerElement(mainContainer);

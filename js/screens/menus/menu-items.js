@@ -12,7 +12,9 @@ class MenuItem {
         this.isInteractive = false;
     }
 
-    makeInteractive() {
+    makeInteractive(menu) {
+        // Interactive menu items need to access the menu object to update the screen.
+        this.menu = menu;
         this.itemContainer.eventMode = 'static';
         this.itemContainer.cursor = 'pointer';
         this.itemContainer.on("pointerup", this.clicked);
@@ -37,6 +39,7 @@ class MenuItem {
     redraw() {
         this.graphics.clear();
         this.draw();
+        this.menu.reRenderMenu();
     }
 }
 
@@ -66,10 +69,12 @@ class Button extends MenuItem {
 
     hoveredOver() {
         this.alpha = 1;
+        this.redraw();
     }
 
     hoveredOut() {
         this.alpha = 0.9;
+        this.redraw();
     }
 }
 

@@ -34,9 +34,9 @@ class StartMenu extends Menu {
 
         let coinsLabel = new Label(3, label.height + 30, 75, 20, "Coins: " + gameObject.coins, 20);
 
-        startButton.makeInteractive();
-        leaderboardButton.makeInteractive();
-        shopButton.makeInteractive();
+        startButton.makeInteractive(this);
+        leaderboardButton.makeInteractive(this);
+        shopButton.makeInteractive(this);
 
         let mainContainer = this.addMenuItems([startButton, shopButton, leaderboardButton, coinsLabel, label]);
         this.centerElement(mainContainer);

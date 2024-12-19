@@ -49,6 +49,11 @@ class Menu extends Screen {
         box.endFill();
         return box;
     }
+
+    reRenderMenu(){
+        // Re-render menu container to stage if anything changes.
+        this.screenManager.render();
+    }
 }
 
 export default Menu;
