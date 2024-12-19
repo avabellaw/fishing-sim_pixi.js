@@ -3,7 +3,6 @@ import { CURSOR } from '../util/helpers.js';
 import PlayerHook from '../entities/player-hook.js';
 import gameObject from '../game-object.js';
 import Screen from './screen.js';
-import { DEBUG } from '../constants.js';
 
 class GameScreen extends Screen {
     constructor(screenManager) {

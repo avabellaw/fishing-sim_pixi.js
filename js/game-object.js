@@ -1,6 +1,6 @@
 import { Fish } from "./entities/fish.js";
 import PassingObject from "./entities/passing-object.js";
-import { DEBUG } from "./constants.js";
+import { DEBUG, NUMBER_OF_PASSING_OBJECTS } from "./constants.js";
 
 let gameObject = {
     entities: [],
@@ -20,7 +20,7 @@ let gameObject = {
         return this.playerHook.isCollidingWith(entity);
     },
     init: function () {
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < NUMBER_OF_PASSING_OBJECTS; i++) {
             this.entitiesStack.push(Fish.getRandomFish());
         }
     },

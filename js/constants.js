@@ -13,6 +13,8 @@ export const BACKGROUND_SCALE = 2;
 
 export const DEBUG = true;
 
+export const NUMBER_OF_PASSING_OBJECTS = 50;
+
 /**
  * Scales based on viewport width and height.
  * @returns {number} The scale to use for the game canvas.
