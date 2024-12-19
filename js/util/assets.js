@@ -3,9 +3,9 @@
  */
 function startLoadingEntitySprites() {
     // Default fish sprite location.
-    const fishAssetsLocation = "../../assets/sprites/fish/";
-    const sceneAssetsLocation = "../../assets/sprites/";
-    const imageAssetsLocation = "../../assets/images/";
+    const fishAssetsLocation = "/assets/sprites/fish/";
+    const sceneAssetsLocation = "/assets/sprites/";
+    const imageAssetsLocation = "/assets/images/";
 
     // Key: Sprite name to access it, Value: Sprite filename
     const fishSpriteData = {
