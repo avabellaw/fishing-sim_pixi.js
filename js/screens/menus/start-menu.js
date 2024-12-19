@@ -14,12 +14,17 @@ class StartMenu extends Menu {
             gameObject.playerHook.followPointer(e);
         });
 
-        let shopButton = new SecondaryButton(0, 120 + startButton.height, this.width, "Shop");
-        shopButton.addClickHandler((e) => {
-            screenManager.showShop();
-        });
+        /*
+            Remove shop button for now.
+            ---------------------------
 
-        let leaderboardButton = new SecondaryButton(0, 140 + startButton.height + shopButton.height, this.width, "Leaderboard");
+            let shopButton = new SecondaryButton(0, 120 + startButton.height, this.width, "Shop");
+            shopButton.addClickHandler((e) => {
+                screenManager.showShop();
+            });
+        */
+
+        let leaderboardButton = new SecondaryButton(0, 140 + startButton.height/* + shopButton.height*/, this.width, "Leaderboard");
         leaderboardButton.addClickHandler((e) => {
             screenManager.showLeaderboard();
         });
@@ -36,9 +41,9 @@ class StartMenu extends Menu {
 
         startButton.makeInteractive(this);
         leaderboardButton.makeInteractive(this);
-        shopButton.makeInteractive(this);
+        // shopButton.makeInteractive(this);
 
-        let mainContainer = this.addMenuItems([startButton, shopButton, leaderboardButton, coinsLabel, label]);
+        let mainContainer = this.addMenuItems([startButton, /*shopButton, */leaderboardButton, coinsLabel, label]);
         this.centerElement(mainContainer);
         mainContainer.zIndex = 1;
         this.container.addChild(mainContainer);
