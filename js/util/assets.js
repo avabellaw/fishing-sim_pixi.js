@@ -39,7 +39,7 @@ function startLoadingEntitySprites() {
 
 function addSpritesToLoader(spriteData, location){
     for (const [key, filename] of Object.entries(spriteData)) {
-        PIXI.Assets.add(key, location + filename + ".webp");
+        PIXI.Assets.add(key, "/fishing-sim_pixi.js/" + location + filename + ".webp");
     }
 }
 
