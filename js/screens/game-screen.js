@@ -5,7 +5,6 @@ import gameObject from '../game-object.js';
 import Screen from './screen.js';
 import { DEBUG } from '../constants.js';
 
-
 class GameScreen extends Screen {
     constructor(screenManager) {
         super(screenManager);
@@ -39,8 +38,6 @@ class GameScreen extends Screen {
         this.container.addChild(gameObject.background.backgroundContainer, gameObject.playerHook.container);
         gameObject.addEntity(gameObject.background);
         gameObject.init();
-
-        let updates = 0;
     }
 
         

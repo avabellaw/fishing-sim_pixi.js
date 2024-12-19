@@ -44,8 +44,7 @@ class Entity {
             this.y + this.height > entity.y;
     }
 
-    // Use already rendered sprite or force it to render.
-    renderEntity(spriteName) {
+    loadAndAddSprite(spriteName) {
         PIXI.Assets.load(spriteName).then((texture) => {
             this.sprite = this.getSprite(texture);
 

@@ -25,7 +25,7 @@ class PassingObject extends Entity {
 
         if (!this.rendered) {
             // As soon as the entity is being used, render it.
-            this.renderEntity(this.spriteName);
+            this.loadAndAddSprite(this.spriteName);
             this.rendered = true;
         }
 
